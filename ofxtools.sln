@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSBCXMLStatementToOFXConverter", "HSBCXMLStatementToOFXConverter\HSBCXMLStatementToOFXConverter.csproj", "{7EA3BD89-F48C-446D-A9BF-E989B2089152}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EggXMLStatementToOFXConverter", "EggXMLStatementToOFXConverter\EggXMLStatementToOFXConverter.csproj", "{7F04F6A3-53DC-4632-9F2B-7CA979CA7CFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F04F6A3-53DC-4632-9F2B-7CA979CA7CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F04F6A3-53DC-4632-9F2B-7CA979CA7CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F04F6A3-53DC-4632-9F2B-7CA979CA7CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F04F6A3-53DC-4632-9F2B-7CA979CA7CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
