@@ -13,6 +13,25 @@ class Transaction
         this.memo = memo;
     }
 
+    public string hash()
+    {
+        string mungedTransaction = string.Format("{0}{1}{2}{3}{4}", amountPence, date, name, memo, type);
+        byte[] bytes = System.Text.ASCIIEncoding.ASCII.GetBytes(mungedTransaction);
+        byte[] hash = System.Security.Cryptography.MD5CryptoServiceProvider.Create().ComputeHash(bytes);
+        return byteArrayToString(hash);
+    }
+
+    private static string byteArrayToString(byte[] arrInput)
+    {
+        int i;
+        System.Text.StringBuilder sOutput = new System.Text.StringBuilder(arrInput.Length);
+        for (i = 0; i < arrInput.Length; i++)
+        {
+            sOutput.Append(arrInput[i].ToString("X2"));
+        }
+        return sOutput.ToString();
+    }
+
     public int amountPence;
     public DateTime date;
     public string name;
@@ -139,7 +158,7 @@ class Converter
             outputFile.WriteLine("<TRNTYPE>{0}</TRNTYPE>", transaction.type);
             outputFile.WriteLine("<DTPOSTED>{0}</DTPOSTED>", transaction.date.ToString("yyyyMMdd"));
             outputFile.WriteLine("<TRNAMT>{0}</TRNAMT>", formatAsPoundsAndPenceString(transaction.amountPence));
-            outputFile.WriteLine("<FITID>{0}</FITID>", hashTransaction(transaction));
+            outputFile.WriteLine("<FITID>{0}</FITID>", transaction.hash());
             outputFile.WriteLine("<NAME>{0}</NAME>", transaction.name);
             outputFile.WriteLine("<MEMO>{0}</MEMO>", transaction.memo);
             outputFile.WriteLine("</STMTTRN>");
@@ -211,36 +230,11 @@ class Converter
         }
     }
 
-    private static string hashTransaction(Transaction transaction)
-    {
-        string mungedTransaction = string.Format("{0}{1}{2}{3}{4}", transaction.amountPence, transaction.date, transaction.name, transaction.memo, transaction.type);
-        byte[] bytes = System.Text.ASCIIEncoding.ASCII.GetBytes(mungedTransaction);
-        byte[] hash = System.Security.Cryptography.MD5CryptoServiceProvider.Create().ComputeHash(bytes);
-        return byteArrayToString(hash);
-    }
-
-    private static string byteArrayToString(byte[] arrInput)
-    {
-        int i;
-        System.Text.StringBuilder sOutput = new System.Text.StringBuilder(arrInput.Length);
-        for (i = 0; i < arrInput.Length; i++)
-        {
-            sOutput.Append(arrInput[i].ToString("X2"));
-        }
-        return sOutput.ToString();
-    }
-
     private static string formatAsPoundsAndPenceString(int value)
     {
         int pounds = value / 100;
         int pence = Math.Abs(value % 100);
         return string.Format("{0}.{1}", pounds, pence);
-    }
-
-    private static string creditOrDebitStringFromValue(int value)
-    {
-        if (value < 0) return "DEBIT";
-        else return "CREDIT";
     }
 
     private static int moneyInPenceFromString(string moneyAsString)

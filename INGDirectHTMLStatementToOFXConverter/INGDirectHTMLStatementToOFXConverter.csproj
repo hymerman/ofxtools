@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7EA3BD89-F48C-446D-A9BF-E989B2089152}</ProjectGuid>
+    <ProjectGuid>{CCDBBE23-90FA-4802-BA09-FC17B2DC85C9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HSBCXMLStatementToOFXConverter</RootNamespace>
-    <AssemblyName>HSBCXMLStatementToOFXConverter</AssemblyName>
+    <RootNamespace>INGDirectHTMLStatementToOFXConverter</RootNamespace>
+    <AssemblyName>INGDirectHTMLStatementToOFXConverter</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
