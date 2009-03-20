@@ -234,11 +234,25 @@ class Converter
     {
         int pounds = value / 100;
         int pence = Math.Abs(value % 100);
-        return string.Format("{0}.{1}", pounds, pence);
+        return string.Format("{0}.{1:00}", pounds, pence);
     }
 
     private static int moneyInPenceFromString(string moneyAsString)
     {
-        return int.Parse(moneyAsString.Replace(".", ""));        
+        string[] parts = moneyAsString.Split('.');
+        int pounds = int.Parse(parts[0]);
+        int pence = int.Parse(parts[1]);
+        int value = pounds * 100;
+
+        if (pounds < 0)
+        {
+            value -= pence;
+        }
+        else
+        {
+            value += pence;
+        }
+
+        return value;
     }
 }

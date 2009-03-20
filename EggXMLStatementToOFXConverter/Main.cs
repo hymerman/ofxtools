@@ -162,7 +162,7 @@ class Converter
     {
         int pounds = value / 100;
         int pence = Math.Abs(value % 100);
-        return string.Format("{0}.{1}", pounds, pence);
+        return string.Format("{0}.{1:00}", pounds, pence);
     }
 
     private static string creditOrDebitStringFromValue(int value)
@@ -176,7 +176,7 @@ class Converter
         string[] parts = moneyAsString.Substring(1).Split(' ');
         string[] partsOfMoney = parts[0].Split('.');
 
-        int pounds = int.Parse(partsOfMoney[0]);
+        int pounds = Math.Abs(int.Parse(partsOfMoney[0]));
         int pence = int.Parse(partsOfMoney[1]);
 
         int money = pounds * 100 + pence;

@@ -1,0 +1,174 @@
+﻿`-html
+<html><body>
+`
+<html>
+  <body>
+  </body>
+</html>
+`-html
+
+
+<html>
+`
+
+
+<html>
+</html>
+`-html
+<html xmlns:portal="http://schemas.microsoft.com/msn/portal/controls"><head><title>Welcome to MSN.com</title>
+`
+<html xmlns:portal="http://schemas.microsoft.com/msn/portal/controls">
+  <head>
+    <title>Welcome to MSN.com</title>
+  </head>
+</html>
+`-html
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<html>
+`
+<html>
+</html>
+`-html
+<HTML><BODY> 
+<LINK href="a.css" type="text/css" rel="stylesheet" /> 
+</body> 
+</HTML> 
+`
+<HTML>
+  <BODY>
+  </BODY>
+  <LINK href="a.css" type="text/css" rel="stylesheet" />
+</HTML>
+`-html
+<html>
+<body>
+<table><tr><td>row1<tr><td>row2</td>
+`
+<html>
+  <body>
+    <table>
+      <tr>
+        <td>row1</td>
+      </tr>
+      <tr>
+        <td>row2</td>
+      </tr>
+    </table>
+  </body>
+</html> 
+`-html
+<html> 
+<head> 
+<script language="JavaScript"> 
+<!-- 
+--></script> 
+</head> 
+<body> 
+<p>hello</p> 
+</body> 
+</html> 
+`
+<html>
+  <head>
+    <script language="JavaScript">
+      <!-- 
+-->
+    </script>
+  </head>
+  <body>
+    <p>hello</p>
+  </body>
+</html>
+`-html
+<html>
+<![CDATA[this is a CDATA block with markup <table><tr><td> ]]>
+</html>
+`
+<html><![CDATA[this is a CDATA block with markup <table><tr><td> ]]></html>
+`-html
+<p>This is really <messed_up.< p>.
+`
+<html>
+  <p>This is really <messed_up.>&lt; p&gt;.
+</messed_up.></p>
+</html>
+`-html
+<html><?xml:namespace prefix="st1" ns="urn:schemas-microsoft-com:office:smarttags" />
+<body>
+`
+<html>
+  <?xml:namespace prefix="st1" ns="urn:schemas-microsoft-com:office:smarttags" /?>
+  <body>
+  </body>
+</html>
+`-html
+<html><class="black">Text………</html>
+`
+<html>
+  <class>Text………</class>
+</html>
+`-html
+<p>&copy;</p>
+<br/>
+`
+<html>
+  <p>©</p>
+  <br />
+</html>
+`-html
+<html> 
+  <img src="img.gif" height"4" width= 2 > 
+</html>
+`
+<html>
+  <img src="img.gif" height="4" width="2" />
+</html>
+`-html
+<html>
+  <script><![CDATA[this is a test]]></script>
+</html>
+`
+<html>
+  <script><![CDATA[this is a test]]></script>
+</html>
+`-lower -html
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML></HTML>
+`
+<html>
+</html>
+`-html -testdoc
+<b>foo</b>
+`
+<html>
+  <b>foo</b>
+</html>
+`-html -testdoc
+blah <b>foo</b>
+`
+<html>blah <b>foo</b></html>
+`-html -testdoc
+<!-- top --> <b>foo</b>
+`
+<!-- top -->
+<html>
+  <b>foo</b>
+</html>
+`
+<html>
+<body>
+<p>&#x5a;&#90;&#90 test &#90</p>
+`
+<html>
+  <body>
+    <p>ZZZ test Z</p>
+  </body>
+</html>
+`-html -testdoc
+<html>
+  <?xml version="1.0" encoding="UTF-16"?>
+</html>
+`
+<html>
+</html>
+`
