@@ -12,8 +12,7 @@ namespace OfxMerger
         public OfxFile(string path)
         {
             Sgml.SgmlReader reader = new Sgml.SgmlReader();
-            reader.SystemLiteral = "D:/personalProjects/ofxtools/external/SgmlReader/TestSuite/ofx160.dtd";
-            //reader.DocType = "SGML";
+            reader.SystemLiteral = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
             reader.InputStream = new System.IO.StreamReader(path);
             reader.WhitespaceHandling = System.Xml.WhitespaceHandling.Significant;
             
