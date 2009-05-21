@@ -131,7 +131,7 @@ namespace OFX {
         
         private string dTSERVERField;
         
-        private OFXSIGNONMSGSRSV1SONRSLANGUAGE lANGUAGEField;
+        private string lANGUAGEField;
         
         /// <remarks/>
         public STATUS STATUS {
@@ -156,7 +156,7 @@ namespace OFX {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public OFXSIGNONMSGSRSV1SONRSLANGUAGE LANGUAGE {
+        public string LANGUAGE {
             get {
                 return this.lANGUAGEField;
             }
@@ -164,16 +164,6 @@ namespace OFX {
                 this.lANGUAGEField = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
-    public enum OFXSIGNONMSGSRSV1SONRSLANGUAGE {
-        
-        /// <remarks/>
-        ENG,
     }
     
     /// <remarks/>
@@ -206,7 +196,7 @@ namespace OFX {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     public partial class OFXBANKMSGSRSV1STMTTRNRS {
         
-        private int tRNUIDField;
+        private string tRNUIDField;
         
         private STATUS sTATUSField;
         
@@ -214,7 +204,7 @@ namespace OFX {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int TRNUID {
+        public string TRNUID {
             get {
                 return this.tRNUIDField;
             }
@@ -313,7 +303,520 @@ namespace OFX {
     public enum OFXBANKMSGSRSV1STMTTRNRSSTMTRSCURDEF {
         
         /// <remarks/>
+        AED,
+        
+        /// <remarks/>
+        AFA,
+        
+        /// <remarks/>
+        ALL,
+        
+        /// <remarks/>
+        AMD,
+        
+        /// <remarks/>
+        ANG,
+        
+        /// <remarks/>
+        AOA,
+        
+        /// <remarks/>
+        ARS,
+        
+        /// <remarks/>
+        AUD,
+        
+        /// <remarks/>
+        AWG,
+        
+        /// <remarks/>
+        AZM,
+        
+        /// <remarks/>
+        BAM,
+        
+        /// <remarks/>
+        BBD,
+        
+        /// <remarks/>
+        BDT,
+        
+        /// <remarks/>
+        BGL,
+        
+        /// <remarks/>
+        BHD,
+        
+        /// <remarks/>
+        BIF,
+        
+        /// <remarks/>
+        BMD,
+        
+        /// <remarks/>
+        BND,
+        
+        /// <remarks/>
+        BOB,
+        
+        /// <remarks/>
+        BRL,
+        
+        /// <remarks/>
+        BSD,
+        
+        /// <remarks/>
+        BTN,
+        
+        /// <remarks/>
+        BWP,
+        
+        /// <remarks/>
+        BYR,
+        
+        /// <remarks/>
+        BZD,
+        
+        /// <remarks/>
+        CAD,
+        
+        /// <remarks/>
+        CDF,
+        
+        /// <remarks/>
+        CHF,
+        
+        /// <remarks/>
+        CLP,
+        
+        /// <remarks/>
+        CNY,
+        
+        /// <remarks/>
+        COP,
+        
+        /// <remarks/>
+        CRC,
+        
+        /// <remarks/>
+        CUP,
+        
+        /// <remarks/>
+        CVE,
+        
+        /// <remarks/>
+        CYP,
+        
+        /// <remarks/>
+        CZK,
+        
+        /// <remarks/>
+        DJF,
+        
+        /// <remarks/>
+        DKK,
+        
+        /// <remarks/>
+        DOP,
+        
+        /// <remarks/>
+        DZD,
+        
+        /// <remarks/>
+        EEK,
+        
+        /// <remarks/>
+        EGP,
+        
+        /// <remarks/>
+        ERN,
+        
+        /// <remarks/>
+        ETB,
+        
+        /// <remarks/>
+        EUR,
+        
+        /// <remarks/>
+        FJD,
+        
+        /// <remarks/>
+        FKP,
+        
+        /// <remarks/>
         GBP,
+        
+        /// <remarks/>
+        GEL,
+        
+        /// <remarks/>
+        GGP,
+        
+        /// <remarks/>
+        GHC,
+        
+        /// <remarks/>
+        GIP,
+        
+        /// <remarks/>
+        GMD,
+        
+        /// <remarks/>
+        GNF,
+        
+        /// <remarks/>
+        GTQ,
+        
+        /// <remarks/>
+        GYD,
+        
+        /// <remarks/>
+        HKD,
+        
+        /// <remarks/>
+        HNL,
+        
+        /// <remarks/>
+        HRK,
+        
+        /// <remarks/>
+        HTG,
+        
+        /// <remarks/>
+        HUF,
+        
+        /// <remarks/>
+        IDR,
+        
+        /// <remarks/>
+        ILS,
+        
+        /// <remarks/>
+        IMP,
+        
+        /// <remarks/>
+        INR,
+        
+        /// <remarks/>
+        IQD,
+        
+        /// <remarks/>
+        IRR,
+        
+        /// <remarks/>
+        ISK,
+        
+        /// <remarks/>
+        JEP,
+        
+        /// <remarks/>
+        JMD,
+        
+        /// <remarks/>
+        JOD,
+        
+        /// <remarks/>
+        JPY,
+        
+        /// <remarks/>
+        KES,
+        
+        /// <remarks/>
+        KGS,
+        
+        /// <remarks/>
+        KHR,
+        
+        /// <remarks/>
+        KMF,
+        
+        /// <remarks/>
+        KPW,
+        
+        /// <remarks/>
+        KRW,
+        
+        /// <remarks/>
+        KWD,
+        
+        /// <remarks/>
+        KYD,
+        
+        /// <remarks/>
+        KZT,
+        
+        /// <remarks/>
+        LAK,
+        
+        /// <remarks/>
+        LBP,
+        
+        /// <remarks/>
+        LKR,
+        
+        /// <remarks/>
+        LRD,
+        
+        /// <remarks/>
+        LSL,
+        
+        /// <remarks/>
+        LTL,
+        
+        /// <remarks/>
+        LVL,
+        
+        /// <remarks/>
+        LYD,
+        
+        /// <remarks/>
+        MAD,
+        
+        /// <remarks/>
+        MDL,
+        
+        /// <remarks/>
+        MGF,
+        
+        /// <remarks/>
+        MKD,
+        
+        /// <remarks/>
+        MMK,
+        
+        /// <remarks/>
+        MNT,
+        
+        /// <remarks/>
+        MOP,
+        
+        /// <remarks/>
+        MRO,
+        
+        /// <remarks/>
+        MTL,
+        
+        /// <remarks/>
+        MUR,
+        
+        /// <remarks/>
+        MVR,
+        
+        /// <remarks/>
+        MWK,
+        
+        /// <remarks/>
+        MXN,
+        
+        /// <remarks/>
+        MYR,
+        
+        /// <remarks/>
+        MZM,
+        
+        /// <remarks/>
+        NAD,
+        
+        /// <remarks/>
+        NGN,
+        
+        /// <remarks/>
+        NIO,
+        
+        /// <remarks/>
+        NOK,
+        
+        /// <remarks/>
+        NPR,
+        
+        /// <remarks/>
+        NZD,
+        
+        /// <remarks/>
+        OMR,
+        
+        /// <remarks/>
+        PAB,
+        
+        /// <remarks/>
+        PEN,
+        
+        /// <remarks/>
+        PGK,
+        
+        /// <remarks/>
+        PHP,
+        
+        /// <remarks/>
+        PKR,
+        
+        /// <remarks/>
+        PLN,
+        
+        /// <remarks/>
+        PYG,
+        
+        /// <remarks/>
+        QAR,
+        
+        /// <remarks/>
+        ROL,
+        
+        /// <remarks/>
+        RUR,
+        
+        /// <remarks/>
+        RWF,
+        
+        /// <remarks/>
+        SAR,
+        
+        /// <remarks/>
+        SBD,
+        
+        /// <remarks/>
+        SCR,
+        
+        /// <remarks/>
+        SDD,
+        
+        /// <remarks/>
+        SEK,
+        
+        /// <remarks/>
+        SGD,
+        
+        /// <remarks/>
+        SHP,
+        
+        /// <remarks/>
+        SIT,
+        
+        /// <remarks/>
+        SKK,
+        
+        /// <remarks/>
+        SLL,
+        
+        /// <remarks/>
+        SOS,
+        
+        /// <remarks/>
+        SPL,
+        
+        /// <remarks/>
+        SRG,
+        
+        /// <remarks/>
+        STD,
+        
+        /// <remarks/>
+        SVC,
+        
+        /// <remarks/>
+        SYP,
+        
+        /// <remarks/>
+        SZL,
+        
+        /// <remarks/>
+        THB,
+        
+        /// <remarks/>
+        TJS,
+        
+        /// <remarks/>
+        TMM,
+        
+        /// <remarks/>
+        TND,
+        
+        /// <remarks/>
+        TOP,
+        
+        /// <remarks/>
+        TRL,
+        
+        /// <remarks/>
+        TTD,
+        
+        /// <remarks/>
+        TVD,
+        
+        /// <remarks/>
+        TWD,
+        
+        /// <remarks/>
+        TZS,
+        
+        /// <remarks/>
+        UAH,
+        
+        /// <remarks/>
+        UGX,
+        
+        /// <remarks/>
+        USD,
+        
+        /// <remarks/>
+        UYU,
+        
+        /// <remarks/>
+        UZS,
+        
+        /// <remarks/>
+        VEB,
+        
+        /// <remarks/>
+        VND,
+        
+        /// <remarks/>
+        VUV,
+        
+        /// <remarks/>
+        WST,
+        
+        /// <remarks/>
+        XAF,
+        
+        /// <remarks/>
+        XAG,
+        
+        /// <remarks/>
+        XAU,
+        
+        /// <remarks/>
+        XCD,
+        
+        /// <remarks/>
+        XDR,
+        
+        /// <remarks/>
+        XOF,
+        
+        /// <remarks/>
+        XPD,
+        
+        /// <remarks/>
+        XPF,
+        
+        /// <remarks/>
+        XPT,
+        
+        /// <remarks/>
+        YER,
+        
+        /// <remarks/>
+        YUM,
+        
+        /// <remarks/>
+        ZAR,
+        
+        /// <remarks/>
+        ZMK,
+        
+        /// <remarks/>
+        ZWD,
     }
     
     /// <remarks/>
@@ -375,6 +878,12 @@ namespace OFX {
         
         /// <remarks/>
         SAVINGS,
+        
+        /// <remarks/>
+        MONEYMRKT,
+        
+        /// <remarks/>
+        CREDITLINE,
     }
     
     /// <remarks/>
@@ -437,13 +946,35 @@ namespace OFX {
         
         private string dTPOSTEDField;
         
-        private decimal tRNAMTField;
+        private string dTUSERField;
+        
+        private string dTAVAILField;
+        
+        private string tRNAMTField;
         
         private string fITIDField;
         
-        private string nAMEField;
+        private string cORRECTFITIDField;
+        
+        private OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNCORRECTACTION cORRECTACTIONField;
+        
+        private string sRVRTIDField;
+        
+        private string cHECKNUMField;
+        
+        private string rEFNUMField;
+        
+        private string sICField;
+        
+        private string pAYEEIDField;
+        
+        private string itemField;
+        
+        private string eXTDNAMEField;
         
         private string mEMOField;
+        
+        private string iNV401KSOURCEField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -469,7 +1000,29 @@ namespace OFX {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public decimal TRNAMT {
+        public string DTUSER {
+            get {
+                return this.dTUSERField;
+            }
+            set {
+                this.dTUSERField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string DTAVAIL {
+            get {
+                return this.dTAVAILField;
+            }
+            set {
+                this.dTAVAILField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string TRNAMT {
             get {
                 return this.tRNAMTField;
             }
@@ -491,12 +1044,100 @@ namespace OFX {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string NAME {
+        public string CORRECTFITID {
             get {
-                return this.nAMEField;
+                return this.cORRECTFITIDField;
             }
             set {
-                this.nAMEField = value;
+                this.cORRECTFITIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNCORRECTACTION CORRECTACTION {
+            get {
+                return this.cORRECTACTIONField;
+            }
+            set {
+                this.cORRECTACTIONField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string SRVRTID {
+            get {
+                return this.sRVRTIDField;
+            }
+            set {
+                this.sRVRTIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string CHECKNUM {
+            get {
+                return this.cHECKNUMField;
+            }
+            set {
+                this.cHECKNUMField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string REFNUM {
+            get {
+                return this.rEFNUMField;
+            }
+            set {
+                this.rEFNUMField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string SIC {
+            get {
+                return this.sICField;
+            }
+            set {
+                this.sICField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string PAYEEID {
+            get {
+                return this.pAYEEIDField;
+            }
+            set {
+                this.pAYEEIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("NAME", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Item {
+            get {
+                return this.itemField;
+            }
+            set {
+                this.itemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string EXTDNAME {
+            get {
+                return this.eXTDNAMEField;
+            }
+            set {
+                this.eXTDNAMEField = value;
             }
         }
         
@@ -510,6 +1151,17 @@ namespace OFX {
                 this.mEMOField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string INV401KSOURCE {
+            get {
+                return this.iNV401KSOURCEField;
+            }
+            set {
+                this.iNV401KSOURCEField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -519,22 +1171,68 @@ namespace OFX {
     public enum OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE {
         
         /// <remarks/>
-        ATM,
-        
-        /// <remarks/>
-        CHECK,
-        
-        /// <remarks/>
         CREDIT,
         
         /// <remarks/>
         DEBIT,
         
         /// <remarks/>
+        INT,
+        
+        /// <remarks/>
+        DIV,
+        
+        /// <remarks/>
+        FEE,
+        
+        /// <remarks/>
+        SRVCHG,
+        
+        /// <remarks/>
+        DEP,
+        
+        /// <remarks/>
+        ATM,
+        
+        /// <remarks/>
+        POS,
+        
+        /// <remarks/>
+        XFER,
+        
+        /// <remarks/>
+        CHECK,
+        
+        /// <remarks/>
+        PAYMENT,
+        
+        /// <remarks/>
+        CASH,
+        
+        /// <remarks/>
+        DIRECTDEP,
+        
+        /// <remarks/>
         DIRECTDEBIT,
         
         /// <remarks/>
         REPEATPMT,
+        
+        /// <remarks/>
+        OTHER,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+    public enum OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNCORRECTACTION {
+        
+        /// <remarks/>
+        REPLACE,
+        
+        /// <remarks/>
+        DELETE,
     }
     
     /// <remarks/>
@@ -545,13 +1243,13 @@ namespace OFX {
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     public partial class OFXBANKMSGSRSV1STMTTRNRSSTMTRSLEDGERBAL {
         
-        private decimal bALAMTField;
+        private string bALAMTField;
         
         private string dTASOFField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public decimal BALAMT {
+        public string BALAMT {
             get {
                 return this.bALAMTField;
             }
