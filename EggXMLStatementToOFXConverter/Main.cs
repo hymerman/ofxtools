@@ -52,7 +52,12 @@ class Converter
             string category = categoryNode.InnerText;
             string money = moneyNode.InnerText;
 
-            transactions.Add(new Transaction(moneyInPenceFromString(money), dateFromDateString(date), descriptionFromLongDescription(description), noteFromLongDescription(description), category));
+            // This check put in place because sometimes (e.g. for foreign currency transactions) a transaction row is used just for extra details (e.g. exchange rate).
+            // todo: Ideally we should capture this information too, but I can't be arsed right this second.
+            if (date != "" && money != "")
+            {
+                transactions.Add(new Transaction(moneyInPenceFromString(money), dateFromDateString(date), descriptionFromLongDescription(description), noteFromLongDescription(description), category));
+            }
         }
 
         XmlNode statementDateNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@class='floatleft']/d:fieldset/d:div[1]/d:select/d:option[@selected='selected']", namespaceManager);
