@@ -15,7 +15,7 @@ namespace OfxMerger
             reader.SystemLiteral = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
             reader.InputStream = new System.IO.StreamReader(path);
             reader.WhitespaceHandling = System.Xml.WhitespaceHandling.Significant;
-            
+
             System.IO.StringWriter output = new System.IO.StringWriter();
             System.Xml.XmlTextWriter w = new System.Xml.XmlTextWriter(output);
             w.Formatting = System.Xml.Formatting.Indented;
@@ -32,6 +32,15 @@ namespace OfxMerger
                 w.WriteNode(reader, true);
             }
 
+            reader.Close();
+
+            
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SimpleOfx.OFX));
+                System.IO.StringReader otherreader = new System.IO.StringReader(output.ToString());
+                SimpleOfx.OFX ofx = (SimpleOfx.OFX)serializer.Deserialize(otherreader);
+                otherreader.Close();
+            
+
             string xmlString = output.ToString();
             System.Xml.XmlDocument document = new System.Xml.XmlDocument();
             document.LoadXml(xmlString);
@@ -47,30 +56,28 @@ namespace OfxMerger
             }
 
             // get account information
-            System.Xml.XmlNode bankIDNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/BANKACCTFROM/BANKID");
-            System.Xml.XmlNode bankAccountIDNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/BANKACCTFROM/ACCTID");
-            System.Xml.XmlNode bankAccountTypeNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/BANKACCTFROM/ACCTTYPE");
-            m_bankID = bankIDNode.InnerText;
-            m_accountID = bankAccountIDNode.InnerText;
-            m_accountType = bankAccountTypeNode.InnerText;
+            m_bankID = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID;
+            m_accountID = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID;
+            m_accountType = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE.ToString(); // this is an enum; convert to k
 
             // get start and end dates of statement
-            System.Xml.XmlNode startDateNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/BANKTRANLIST/DTSTART");
-            System.Xml.XmlNode endDateNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/BANKTRANLIST/DTEND");
-            m_startDate = DateTime.ParseExact(startDateNode.InnerText, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
-            m_endDate = DateTime.ParseExact(endDateNode.InnerText, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
-            
-            // get closing balance and date this refers to
-            System.Xml.XmlNode closingBalanceNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/LEDGERBAL/BALAMT");
-            System.Xml.XmlNode closingBalanceDateNode = document.SelectSingleNode("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/LEDGERBAL/DTASOF");
-            m_closingBalance = moneyInPenceFromString(closingBalanceNode.InnerText);
-            m_closingBalanceDate = DateTime.ParseExact(closingBalanceDateNode.InnerText, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            m_startDate = DateTime.ParseExact(ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            m_endDate = DateTime.ParseExact(ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
-            System.Xml.XmlNodeList transactionNodes = document.SelectNodes("/OFX/BANKMSGSRSV1/STMTTRNRS/STMTRS/BANKTRANLIST/STMTTRN");
+            // get closing balance and date this refers to
+            m_closingBalance = moneyInPenceFromString(ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT);
+            m_closingBalanceDate = DateTime.ParseExact(ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+
             m_transactions = new System.Collections.Generic.List<OfxTransaction>();
-            foreach (System.Xml.XmlNode transactionNode in transactionNodes)
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN node in ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
             {
-                m_transactions.Add(new OfxTransaction(transactionNode));
+                m_transactions.Add(new OfxTransaction(
+                    moneyInPenceFromString(node.TRNAMT),
+                    DateTime.ParseExact(node.DTPOSTED, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture),
+                    node.NAME,
+                    node.TRNTYPE.ToString(),
+                    node.MEMO)
+                );
             }
         }
 
