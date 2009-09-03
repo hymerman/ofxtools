@@ -15,7 +15,7 @@ namespace OfxEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OfxEditor(args[0]));
+            Application.Run(new OfxEditor(args));
         }
     }
 }

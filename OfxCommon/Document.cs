@@ -13,10 +13,12 @@ namespace Ofx
 
         public void Load(string fileName)
         {
-            // set version from first few lines
+            string dtdRelativePath = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
+            string dtdFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetEntryAssembly().CodeBase).AbsolutePath), dtdRelativePath);
+
             // deserialise statement from file
             Sgml.SgmlReader reader = new Sgml.SgmlReader();
-            reader.SystemLiteral = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
+            reader.SystemLiteral = dtdFullPath;
             reader.InputStream = new System.IO.StreamReader(fileName);
             reader.WhitespaceHandling = System.Xml.WhitespaceHandling.Significant;
 

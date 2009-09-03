@@ -35,18 +35,14 @@ namespace OfxMerger
             reader.Close();
 
             
-                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SimpleOfx.OFX));
-                System.IO.StringReader otherreader = new System.IO.StringReader(output.ToString());
-                SimpleOfx.OFX ofx = (SimpleOfx.OFX)serializer.Deserialize(otherreader);
-                otherreader.Close();
+            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SimpleOfx.OFX));
+            System.IO.StringReader otherreader = new System.IO.StringReader(output.ToString());
+            SimpleOfx.OFX ofx = (SimpleOfx.OFX)serializer.Deserialize(otherreader);
+            otherreader.Close();
             
 
-            string xmlString = output.ToString();
-            System.Xml.XmlDocument document = new System.Xml.XmlDocument();
-            document.LoadXml(xmlString);
-
             // find out whether it's a bank or credit card statement
-            if (document.SelectSingleNode("/OFX/BANKMSGSRSV1") != null)
+            if (ofx.BANKMSGSRSV1 != null)
             {
                 m_broadAccountType = AccountType.Bank;
             }
@@ -58,7 +54,7 @@ namespace OfxMerger
             // get account information
             m_bankID = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID;
             m_accountID = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID;
-            m_accountType = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE.ToString(); // this is an enum; convert to k
+            m_accountType = ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE.ToString(); // this is an enum; convert to string
 
             // get start and end dates of statement
             m_startDate = DateTime.ParseExact(ofx.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
