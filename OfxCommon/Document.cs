@@ -13,6 +13,8 @@ namespace Ofx
 
         public void Load(string fileName)
         {
+            m_fileName = fileName;
+
             string dtdRelativePath = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
             string dtdFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetEntryAssembly().CodeBase).AbsolutePath), dtdRelativePath);
 
@@ -51,16 +53,63 @@ namespace Ofx
             otherreader.Close();
         }
 
-        public void Save(string filename)
+        public void Save()
         {
-            // create streamWriter
-            // pump out OFX crap if version is 1.xx
-            // pump out XML header crap if version is 2.xx
-            // serialise statement to stream
-            // save stream to file
-            throw new NotImplementedException();
+            Save(m_fileName);
         }
 
+        public void Save(string filename)
+        {
+            m_fileName = filename;
+
+            // create streamWriter
+            System.IO.StreamWriter writer = new System.IO.StreamWriter(filename);
+
+            // pump out OFX crap if version is 1.xx
+            if(m_version == "1")
+            {
+                writer.WriteLine("OFXHEADER:100");
+                writer.WriteLine("DATA:OFXSGML");
+                writer.WriteLine("VERSION:102");
+                writer.WriteLine("SECURITY:NONE");
+                writer.WriteLine("ENCODING:USASCII");
+                writer.WriteLine("CHARSET:1252");
+                writer.WriteLine("COMPRESSION:NONE");
+                writer.WriteLine("OLDFILEUID:NONE");
+                writer.WriteLine("NEWFILEUID:NONE");
+                writer.WriteLine();
+            }
+
+            // Create an intermediary XML writer which writes to the stream but doesn't bother with formal XML nonsense
+            System.Xml.XmlWriterSettings settings = new System.Xml.XmlWriterSettings();
+
+            if(m_version == "1")
+            {
+                settings.Indent = true;
+                settings.OmitXmlDeclaration = true;
+                // this is supposedly required but actually just seems to break things. Seems to work ok without it.
+                //settings.ConformanceLevel = System.Xml.ConformanceLevel.Fragment;
+            }
+
+            System.Xml.XmlWriter xmlWriter = System.Xml.XmlWriter.Create(writer, settings);
+
+            //Create our own empty namespace for the output since we don't really care, especially for OFX 1.x
+            System.Xml.Serialization.XmlSerializerNamespaces ns = new System.Xml.Serialization.XmlSerializerNamespaces();
+            ns.Add("", "");
+
+            // serialise statement to stream
+            // todo: tags with empty text will be serialised as e.g. <MEMO /> instead of <MEMO></MEMO>. Not sure if it's a big deal for OFX or not - I should check.
+            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(SimpleOfx.OFX));
+            serializer.Serialize(xmlWriter, m_statement, ns);
+
+            // save stream to file
+            xmlWriter.Flush();
+            xmlWriter.Close();
+            writer.Flush();
+            writer.Close();
+        }
+
+        public string m_fileName;
         public string m_version;
         public SimpleOfx.OFX m_statement;
     }

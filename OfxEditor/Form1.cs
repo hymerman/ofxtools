@@ -63,12 +63,23 @@ namespace OfxEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (document != null)
+            {
+                document.Save();
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDialog.FileName;
+
+                document.Save(fileName);
+            }
         }
     }
 }
