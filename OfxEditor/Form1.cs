@@ -10,8 +10,10 @@ namespace OfxEditor
 
         public OfxEditor(string[] fileNames)
         {
-            if(fileNames.Length > 0)
+            if (fileNames.Length > 0)
+            {
                 fileName = fileNames[0];
+            }
 
             InitializeComponent();
         }
@@ -19,7 +21,13 @@ namespace OfxEditor
         private void OfxEditor_Load(object sender, EventArgs e)
         {
             if (fileName != null)
+            {
                 loadFile();
+            }
+            else
+            {
+                openNewDocument();
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,11 +79,23 @@ namespace OfxEditor
         {
             if (document != null)
             {
-                document.Save();
+                if (fileName != null && fileName != "")
+                {
+                    document.Save();
+                }
+                else
+                {
+                    doSaveAs();
+                }
             }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            doSaveAs();
+        }
+
+        private void doSaveAs()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
@@ -89,6 +109,11 @@ namespace OfxEditor
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openNewDocument();
+        }
+
+        private void openNewDocument()
         {
             fileName = null;
             document = new Ofx.Document();
