@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace OfxEditor
 {
+    // todo: button to work out date ranges
+    // todo: button to work out final balance
+
     public partial class OfxEditor : Form
     {
         private string fileName;
@@ -59,14 +62,18 @@ namespace OfxEditor
             dataGridView1.AllowUserToResizeColumns = true;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.DataSource = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
+            // todo: make TRNTYPE use a combobox cell
+            // todo: validation of inputs
+            // todo: some easier way to put dates in date cells
+            // todo: validation/auto-fixing of amount cells
 
-            accountTypeComboBox.DataSource = System.Enum.GetNames(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE));
+            accountTypeComboBox.DataSource = System.Enum.GetValues(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE));
             accountTypeComboBox.SelectedItem = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE;
             accountIDTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID;
             bankIDTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID;
             statementStartDateTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART;
             statementEndDateTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND;
-            ledgerBalanceTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT.ToString();
+            ledgerBalanceTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT;
             ledgerBalanceAsOfTextBox.Text = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF;
         }
 
@@ -81,7 +88,7 @@ namespace OfxEditor
             {
                 if (fileName != null && fileName != "")
                 {
-                    document.Save();
+                    doSave();
                 }
                 else
                 {
@@ -92,7 +99,10 @@ namespace OfxEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            doSaveAs();
+            if (document != null)
+            {
+                doSaveAs();
+            }
         }
 
         private void doSaveAs()
@@ -104,8 +114,26 @@ namespace OfxEditor
             {
                 fileName = saveFileDialog.FileName;
 
-                document.Save(fileName);
+                doSave();
             }
+        }
+
+        private void doSave()
+        {
+            populateDocumentFromControls();
+
+            document.Save(fileName);
+        }
+
+        private void populateDocumentFromControls()
+        {
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = accountIDTextBox.Text;
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE)accountTypeComboBox.SelectedItem;
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = bankIDTextBox.Text;
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = statementEndDateTextBox.Text;
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = statementStartDateTextBox.Text;
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = ledgerBalanceTextBox.Text;
+            document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = ledgerBalanceAsOfTextBox.Text;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)

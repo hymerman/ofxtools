@@ -4,12 +4,13 @@ using System.Text;
 
 namespace Ofx
 {
+    // todo: implementation of credit card account types
+
     public class Document
     {
         public Document()
         {
             m_version = "1";
-            m_fileName = null;
 
             m_statement = new SimpleOfx.OFX();
 
@@ -51,8 +52,6 @@ namespace Ofx
 
         public void Load(string fileName)
         {
-            m_fileName = fileName;
-
             string dtdRelativePath = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
             string dtdFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetEntryAssembly().CodeBase).AbsolutePath), dtdRelativePath);
 
@@ -81,6 +80,7 @@ namespace Ofx
                 w.WriteNode(reader, true);
             }
 
+            reader.InputStream.Close();
             reader.Close();
 
 
@@ -91,14 +91,11 @@ namespace Ofx
             otherreader.Close();
         }
 
-        public void Save()
-        {
-            Save(m_fileName);
-        }
-
         public void Save(string filename)
         {
-            m_fileName = filename;
+            // todo: sort transaction list
+            // todo: generate FITIDs
+            // todo: validation?
 
             // create streamWriter
             System.IO.StreamWriter writer = new System.IO.StreamWriter(filename);
@@ -127,6 +124,7 @@ namespace Ofx
                 settings.OmitXmlDeclaration = true;
                 // this is supposedly required but actually just seems to break things. Seems to work ok without it.
                 //settings.ConformanceLevel = System.Xml.ConformanceLevel.Fragment;
+                // todo: prevent tags of the form <blah/> being written, as apparently some programs don't like those, even though they're valid XML
             }
 
             System.Xml.XmlWriter xmlWriter = System.Xml.XmlWriter.Create(writer, settings);
