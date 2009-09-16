@@ -6,6 +6,44 @@ namespace Ofx
 {
     public class Document
     {
+        public Document()
+        {
+            m_version = "1";
+            m_fileName = null;
+
+            m_statement = new SimpleOfx.OFX();
+
+            // It's ridiculous that xsd.exe doesn't generate a default constructor that will do all this for me.
+            // Honestly, it has the knowledge that some nodes are required in the schema, so it should know to at least new them.
+            // I haven't implemented a constructor since it's generated code, and putting it here is less hassle, even if it's ugly and stupid.
+            m_statement.BANKMSGSRSV1 = new SimpleOfx.OFXBANKMSGSRSV1();
+            m_statement.BANKMSGSRSV1.STMTTRNRS = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRS();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS = new SimpleOfx.STATUS();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS.CODE = "0";
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS.SEVERITY = SimpleOfx.STATUSSEVERITY.INFO;
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRS();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROM();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = "";
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLIST();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = DateTime.Now.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = DateTime.Now.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN>();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSCURDEF.GBP; // todo: take this from some global preference
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSLEDGERBAL();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = "0.00";
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = DateTime.Now.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID = "0";
+            m_statement.SIGNONMSGSRSV1 = new SimpleOfx.OFXSIGNONMSGSRSV1();
+            m_statement.SIGNONMSGSRSV1.SONRS = new SimpleOfx.OFXSIGNONMSGSRSV1SONRS();
+            m_statement.SIGNONMSGSRSV1.SONRS.DTSERVER = DateTime.Now.ToString("yyyyMMddHHmmss");
+            m_statement.SIGNONMSGSRSV1.SONRS.LANGUAGE = "ENG";
+            m_statement.SIGNONMSGSRSV1.SONRS.STATUS = new SimpleOfx.STATUS();
+            m_statement.SIGNONMSGSRSV1.SONRS.STATUS.CODE = "0";
+            m_statement.SIGNONMSGSRSV1.SONRS.STATUS.SEVERITY = SimpleOfx.STATUSSEVERITY.INFO;
+        }
+
         public Document(string fileName)
         {
             Load(fileName);

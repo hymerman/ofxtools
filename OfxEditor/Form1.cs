@@ -22,7 +22,7 @@ namespace OfxEditor
                 loadFile();
         }
 
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
@@ -39,6 +39,11 @@ namespace OfxEditor
         {
             document = new Ofx.Document(fileName);
 
+            bindControlsToDocument();
+        }
+
+        private void bindControlsToDocument()
+        {
             dataGridView1.AllowUserToAddRows = true;
             dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystroke;
             dataGridView1.AllowUserToDeleteRows = true;
@@ -81,6 +86,14 @@ namespace OfxEditor
 
                 document.Save(fileName);
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fileName = null;
+            document = new Ofx.Document();
+
+            bindControlsToDocument();
         }
     }
 }
