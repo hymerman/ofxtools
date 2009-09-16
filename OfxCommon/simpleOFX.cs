@@ -897,8 +897,8 @@ namespace SimpleOfx {
         private string dTSTARTField;
         
         private string dTENDField;
-        
-        private OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN[] sTMTTRNField;
+
+        private System.ComponentModel.BindingList<OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN> sTMTTRNField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -924,7 +924,8 @@ namespace SimpleOfx {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("STMTTRN", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN[] STMTTRN {
+        public System.ComponentModel.BindingList<OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN> STMTTRN
+        {
             get {
                 return this.sTMTTRNField;
             }

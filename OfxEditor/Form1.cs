@@ -39,12 +39,13 @@ namespace OfxEditor
         {
             document = new Ofx.Document(fileName);
 
-            dataGridView1.DataSource = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
             dataGridView1.AllowUserToAddRows = true;
+            dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystroke;
             dataGridView1.AllowUserToDeleteRows = true;
             dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.AllowUserToResizeColumns = true;
             dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.DataSource = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
 
             accountTypeComboBox.DataSource = System.Enum.GetNames(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE));
             accountTypeComboBox.SelectedItem = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE;
