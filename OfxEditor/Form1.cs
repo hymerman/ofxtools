@@ -3,9 +3,6 @@ using System.Windows.Forms;
 
 namespace OfxEditor
 {
-    // todo: button to work out date ranges
-    // todo: button to work out final balance
-
     public partial class OfxEditor : Form
     {
         private string fileName;
@@ -147,6 +144,22 @@ namespace OfxEditor
             document = new Ofx.Document();
 
             bindControlsToDocument();
+        }
+
+        private void calculateDateRangeButton_Click(object sender, EventArgs e)
+        {
+            if (document != null)
+            {
+                document.calculateDateRange();
+            }
+        }
+
+        private void calculateClosingBalanceDetailsButton_Click(object sender, EventArgs e)
+        {
+            if (document != null)
+            {
+                document.calculateClosingBalanceDetails();
+            }
         }
     }
 }

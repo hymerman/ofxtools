@@ -93,9 +93,11 @@ namespace Ofx
 
         public void Save(string filename)
         {
-            // todo: sort transaction list
-            // todo: generate FITIDs
-            // todo: validation?
+            //sortTransactionsByDate();
+
+            generateTransactionIDs();
+
+            //validateStatement();
 
             // create streamWriter
             System.IO.StreamWriter writer = new System.IO.StreamWriter(filename);
@@ -143,6 +145,63 @@ namespace Ofx
             xmlWriter.Close();
             writer.Flush();
             writer.Close();
+        }
+
+        public void calculateClosingBalanceDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void calculateDateRange()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void validateStatement()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void generateTransactionIDs()
+        {
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            {
+                hashTransaction(transaction);
+            }
+        }
+
+        private static void hashTransaction(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction)
+        {
+            string mungedTransaction = "";
+            if (transaction.DTAVAIL != null) mungedTransaction += transaction.DTAVAIL;
+            if (transaction.DTPOSTED != null) mungedTransaction += transaction.DTPOSTED;
+            if (transaction.DTUSER != null) mungedTransaction += transaction.DTUSER;
+            if (transaction.MEMO != null) mungedTransaction += transaction.MEMO;
+            if (transaction.NAME != null) mungedTransaction += transaction.NAME;
+            if (transaction.REFNUM != null) mungedTransaction += transaction.REFNUM;
+            if (transaction.TRNAMT != null) mungedTransaction += transaction.TRNAMT;
+            if (transaction.TRNTYPE != null) mungedTransaction += transaction.TRNTYPE;
+
+            byte[] bytes = System.Text.ASCIIEncoding.ASCII.GetBytes(mungedTransaction);
+            byte[] hash = System.Security.Cryptography.MD5CryptoServiceProvider.Create().ComputeHash(bytes);
+
+            transaction.FITID = byteArrayToString(hash);
+        }
+
+        private static string byteArrayToString(byte[] arrInput)
+        {
+            int i;
+            System.Text.StringBuilder sOutput = new System.Text.StringBuilder(arrInput.Length);
+            for (i = 0; i < arrInput.Length; i++)
+            {
+                sOutput.Append(arrInput[i].ToString("X2"));
+            }
+            return sOutput.ToString();
+        }
+
+        private void sortTransactionsByDate()
+        {
+            throw new NotImplementedException();
         }
 
         public string m_fileName;
