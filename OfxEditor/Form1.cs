@@ -52,6 +52,33 @@ namespace OfxEditor
 
         private void bindControlsToDocument()
         {
+            //dataGridView1.AutoGenerateColumns = false;
+            //dataGridView1.AllowUserToAddRows = true;
+            //dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystroke;
+            //dataGridView1.AllowUserToDeleteRows = true;
+            //dataGridView1.AllowUserToOrderColumns = true;
+            //dataGridView1.AllowUserToResizeColumns = true;
+            //dataGridView1.AllowUserToResizeRows = false;
+
+            //DataGridViewComboBoxColumn col = new DataGridViewComboBoxColumn();
+            //col.Name = "My Enum Column";
+            //col.DataPropertyName = "TRNTYPE";
+            //col.DataSource = Enum.GetValues(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE));
+            //col.ValueType = typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE);
+            ////col.CellTemplate = new DataGridViewComboBoxCell(); // needed?
+            //dataGridView1.Columns.Add(col);
+
+            //DataGridViewTextBoxColumn col2 = new DataGridViewTextBoxColumn();
+            //col2.Name = "My Non-Enum Column";
+            //col2.DataPropertyName = "DTPOSTED";
+            ////col2.DataSource = Enum.GetValues(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE));
+            ////col2.ValueType = typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE);
+            ////col.CellTemplate = new DataGridViewTextBoxCell(); // needed?
+            //dataGridView1.Columns.Add(col2);
+
+
+            //dataGridView1.DataSource = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
+
             dataGridView1.AllowUserToAddRows = true;
             dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystroke;
             dataGridView1.AllowUserToDeleteRows = true;
