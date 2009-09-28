@@ -149,12 +149,42 @@ namespace Ofx
 
         public void calculateClosingBalanceDetails()
         {
-            throw new NotImplementedException();
+            if (m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Count < 0)
+            {
+                return;
+            }
+
+            int total = 0;
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            {
+                int amount = moneyInPenceFromString(transaction.TRNAMT);
+                total += amount;
+            }
+
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(total);
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND;
         }
 
         public void calculateDateRange()
         {
-            throw new NotImplementedException();
+            if (m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Count < 0)
+            {
+                return;
+            }
+
+            DateTime earliest = DateTime.MaxValue;
+            DateTime latest = DateTime.MinValue;
+
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            {
+                DateTime date = DateTime.ParseExact(transaction.DTPOSTED, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+
+                if (date.CompareTo(earliest) == -1) earliest = date;
+                if (date.CompareTo(latest) == 1) latest = date;
+            }
+
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = earliest.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = latest.ToString("yyyyMMdd");
         }
 
         private void validateStatement()
@@ -197,6 +227,32 @@ namespace Ofx
                 sOutput.Append(arrInput[i].ToString("X2"));
             }
             return sOutput.ToString();
+        }
+
+        private static int moneyInPenceFromString(string moneyAsString)
+        {
+            string[] parts = moneyAsString.Split('.');
+            int pounds = int.Parse(parts[0]);
+            int pence = int.Parse(parts[1]);
+            int value = pounds * 100;
+
+            if (pounds < 0)
+            {
+                value -= pence;
+            }
+            else
+            {
+                value += pence;
+            }
+
+            return value;
+        }
+
+        private static string formatAsPoundsAndPenceString(int value)
+        {
+            int pounds = value / 100;
+            int pence = Math.Abs(value % 100);
+            return string.Format("{0}.{1:00}", pounds, pence);
         }
 
         private void sortTransactionsByDate()
