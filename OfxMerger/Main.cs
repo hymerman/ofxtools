@@ -4,64 +4,68 @@
     {
         static void Main(string[] args)
         {
-            System.Collections.Generic.List<OfxFile> files = new System.Collections.Generic.List<OfxFile>();
+            System.Collections.Generic.List<Ofx.Document> documents = new System.Collections.Generic.List<Ofx.Document>();
 
             // Read all OFX files into memory and store in a list
-            foreach (string arg in args)
+            foreach (string filename in args)
             {
-                OfxFile file = new OfxFile(arg);
-                files.Add(file);
+                Ofx.Document file = new Ofx.Document(filename);
+                documents.Add(file);
             }
 
             // create merged statement object with properties of first file in files
-            OfxFile merged = new OfxFile();
-            merged.usePropertiesFrom(files[0]);
+            Ofx.Document merged = new Ofx.Document();
+            merged.usePropertiesFrom(documents[0]);
+            merged.startDate = documents[0].startDate;
+            merged.endDate = documents[documents.Count - 1].endDate;
+            merged.closingBalanceDate = documents[documents.Count - 1].closingBalanceDate;
+            merged.closingBalance = documents[documents.Count - 1].closingBalance;
 
-            // add all transactions from all files to merged file
-            System.DateTime earliestStartDate = System.DateTime.MaxValue;
-            System.DateTime latestEndDate = System.DateTime.MinValue;
-            System.DateTime latestLedgerBalanceDate = System.DateTime.MinValue;
-            int latestLedgerBalance = int.MinValue;
+            documents.Sort(delegate(Ofx.Document a, Ofx.Document b) { return a.startDate.CompareTo(b.startDate); });
 
-            files.Sort(delegate(OfxFile a, OfxFile b) { return a.m_startDate.CompareTo(b.m_startDate); });
+            System.Collections.Generic.List<string> warnings = new System.Collections.Generic.List<string>();
 
-            foreach (OfxFile file in files)
+            for (int index = 1; index < documents.Count; ++index)
             {
-                if (file.m_closingBalanceDate > latestLedgerBalanceDate)
+                int value = System.DateTime.Compare(documents[index].startDate, documents[index-1].endDate.AddDays(1));
+                if (value < 0)
                 {
-                    latestLedgerBalanceDate = file.m_closingBalanceDate;
-                    latestLedgerBalance = file.m_closingBalance;
+                    // todo: address duplicate transactions
+                    warnings.Add("overlapping date range between documents " + (index-1) + " and " + index);
+                }
+                else if(value > 0)
+                {
+                    warnings.Add("gap in date range between documents " + (index-1) + " and " + index);
                 }
 
-                if (file.m_startDate < earliestStartDate)
+                if (documents[index - 1].closingBalance + documents[index].sumOfTransactions() != documents[index].closingBalance)
                 {
-                    earliestStartDate = file.m_startDate;
+                    warnings.Add("Document " + index + "'s closing balance inconsistent with transactions and previous document's closing balance");
                 }
 
-                if (file.m_endDate > latestEndDate)
-                {
-                    latestEndDate = file.m_endDate;
-                }
-
-                // loop through transactions
-                foreach (OfxTransaction transaction in file.transactions())
+                // add all the transactions to the merged document
+                foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in documents[index].transactions)
                 {
                     // add to transactions of merged statement
-                    merged.AddTransaction(transaction);
+                    merged.transactions.Add(transaction);
                 }
             }
 
-            merged.m_startDate = earliestStartDate;
-            merged.m_endDate = latestEndDate;
-            merged.m_closingBalanceDate = latestLedgerBalanceDate;
-            merged.m_closingBalance = latestLedgerBalance;
+            if (warnings.Count > 0)
+            {
+                foreach (string warning in warnings)
+                {
+                    System.Console.WriteLine(warning);
+                }
 
-            // todo: address continuity of statements, sorting of transactions and avoiding duplicate transactions
+                System.Console.ReadKey();
+            }
 
-            // write merged file to disc
+            // write merged file
             System.IO.FileInfo inputFileInfo = new System.IO.FileInfo(args[0]);
             string outputDirectory = inputFileInfo.DirectoryName;
-            merged.writeToFile(outputDirectory);
+            string outputFileName = string.Format("{0} - {1}.ofx", merged.startDate.ToString("yyyy-MM-dd"), merged.endDate.ToString("yyyy-MM-dd"));
+            merged.Save(outputDirectory + "/" + outputFileName);
         }
     }
 }

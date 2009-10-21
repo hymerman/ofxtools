@@ -154,14 +154,7 @@ namespace Ofx
                 return;
             }
 
-            int total = 0;
-            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
-            {
-                int amount = moneyInPenceFromString(transaction.TRNAMT);
-                total += amount;
-            }
-
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(total);
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(sumOfTransactions());
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND;
         }
 
@@ -263,5 +256,81 @@ namespace Ofx
         public string m_fileName;
         public string m_version;
         public SimpleOfx.OFX m_statement;
+
+        public DateTime startDate
+        {
+            get
+            {
+                return DateTime.ParseExact(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = value.ToString("yyyyMMdd");
+            }
+        }
+
+        public void usePropertiesFrom(Document document)
+        {
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM;
+        }
+
+        public DateTime closingBalanceDate
+        {
+            get
+            {
+                return DateTime.ParseExact(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = value.ToString("yyyyMMdd");
+            }   
+        }
+
+        public int closingBalance
+        {
+            get
+            {
+                return moneyInPenceFromString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT);
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(value);
+            }   
+        }
+
+        public DateTime endDate
+        {
+            get
+            {
+                return DateTime.ParseExact(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = value.ToString("yyyyMMdd");
+            }
+        }
+
+        public System.ComponentModel.BindingList<SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN> transactions
+        {
+            get
+            {
+                return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = value;
+            }
+        }
+
+        public int sumOfTransactions()
+        {
+            int total = 0;
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            {
+                int amount = moneyInPenceFromString(transaction.TRNAMT);
+                total += amount;
+            }
+            return total;
+        }
     }
 }
