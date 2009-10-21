@@ -6,11 +6,28 @@
         {
             System.Collections.Generic.List<Ofx.Document> documents = new System.Collections.Generic.List<Ofx.Document>();
 
-            // Read all OFX files into memory and store in a list
-            foreach (string filename in args)
+            // check if a directory has been supplied
+            if ((System.IO.File.GetAttributes(args[0]) & System.IO.FileAttributes.Directory) == System.IO.FileAttributes.Directory)
             {
-                Ofx.Document file = new Ofx.Document(filename);
-                documents.Add(file);
+                // load each file in the directory if it is an ofx file
+                foreach (string filename in System.IO.Directory.GetFiles(args[0]))
+                {
+                    System.IO.FileInfo info = new System.IO.FileInfo(filename);
+                    if (System.String.Compare(info.Extension, ".ofx", true) == 0)
+                    {
+                        Ofx.Document file = new Ofx.Document(filename);
+                        documents.Add(file);
+                    }
+                }
+            }
+            else
+            {
+                // load each argument as an ofx file
+                foreach (string filename in args)
+                {
+                    Ofx.Document file = new Ofx.Document(filename);
+                    documents.Add(file);
+                }
             }
 
             // create merged statement object with properties of first file in files
