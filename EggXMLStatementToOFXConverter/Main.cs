@@ -60,15 +60,15 @@ class Converter
             }
         }
 
-        XmlNode statementDateNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@class='floatleft']/d:fieldset/d:div[1]/d:select/d:option[@selected='selected']", namespaceManager);
+        XmlNode statementDateNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@class='floatleft staticdatablock equalheight narrow ']/d:fieldset/d:div[1]/d:select/d:option[@selected='selected']", namespaceManager);
 
-        string[] parts = statementDateNode.InnerText.Split(new string[] {"to"}, StringSplitOptions.None);
+        string[] parts = statementDateNode.InnerText.Split(new string[] {" to "}, StringSplitOptions.None);
 
         System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
-        DateTime statementStart = DateTime.ParseExact(parts[0].Trim(), "dd MMMM yyyy", provider).AddDays(1);
-        DateTime statementEnd = DateTime.ParseExact(parts[1].Trim(), "dd MMMM yyyy", provider);
+        DateTime statementStart = DateTime.ParseExact(parts[0].Trim(), "dd MMMM yyyy", provider);
+        DateTime statementEnd = DateTime.ParseExact(parts[1].Trim(), "dd MMMM yyyy", provider).AddDays(-1);
 
-        XmlNode accountNumberNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:fieldset/d:div[@class='input']/d:span[@id='lblCardNumber']", namespaceManager);
+        XmlNode accountNumberNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[1]/d:div[2]/d:span[@id='lblCardNumber']", namespaceManager);
         long accountNumber = long.Parse(accountNumberNode.InnerText.Replace(" ", ""));
 
         string outputFileName = string.Format("{0} - {1}.ofx", statementStart.ToString("yyyy-MM-dd"), statementEnd.ToString("yyyy-MM-dd"));
