@@ -6,9 +6,13 @@
         {
             System.Collections.Generic.List<Ofx.Document> documents = new System.Collections.Generic.List<Ofx.Document>();
 
+            string outputDirectory;
+
             // check if a directory has been supplied
             if ((System.IO.File.GetAttributes(args[0]) & System.IO.FileAttributes.Directory) == System.IO.FileAttributes.Directory)
             {
+                outputDirectory = args[0];
+
                 // load each file in the directory if it is an ofx file
                 foreach (string filename in System.IO.Directory.GetFiles(args[0]))
                 {
@@ -22,6 +26,9 @@
             }
             else
             {
+                System.IO.FileInfo inputFileInfo = new System.IO.FileInfo(args[0]);
+                outputDirectory = inputFileInfo.DirectoryName;
+
                 // load each argument as an ofx file
                 foreach (string filename in args)
                 {
@@ -30,6 +37,8 @@
                 }
             }
 
+            documents.Sort(delegate(Ofx.Document a, Ofx.Document b) { return a.startDate.CompareTo(b.startDate); });
+
             // create merged statement object with properties of first file in files
             Ofx.Document merged = new Ofx.Document();
             merged.usePropertiesFrom(documents[0]);
@@ -37,8 +46,6 @@
             merged.endDate = documents[documents.Count - 1].endDate;
             merged.closingBalanceDate = documents[documents.Count - 1].closingBalanceDate;
             merged.closingBalance = documents[documents.Count - 1].closingBalance;
-
-            documents.Sort(delegate(Ofx.Document a, Ofx.Document b) { return a.startDate.CompareTo(b.startDate); });
 
             System.Collections.Generic.List<string> warnings = new System.Collections.Generic.List<string>();
 
@@ -79,8 +86,6 @@
             }
 
             // write merged file
-            System.IO.FileInfo inputFileInfo = new System.IO.FileInfo(args[0]);
-            string outputDirectory = inputFileInfo.DirectoryName;
             string outputFileName = string.Format("{0} - {1}.ofx", merged.startDate.ToString("yyyy-MM-dd"), merged.endDate.ToString("yyyy-MM-dd"));
             merged.Save(outputDirectory + "/" + outputFileName);
         }
