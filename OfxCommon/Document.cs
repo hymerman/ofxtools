@@ -99,6 +99,8 @@ namespace Ofx
 
             //validateStatement();
 
+            removeEmptyData();
+
             // create streamWriter
             System.IO.StreamWriter writer = new System.IO.StreamWriter(filename);
 
@@ -145,6 +147,22 @@ namespace Ofx
             xmlWriter.Close();
             writer.Flush();
             writer.Close();
+        }
+
+        private void removeEmptyData()
+        {
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            {
+                // the " " bits are kind of a workaround really, to prevent nodes like <NAME/> being written.
+                // todo: fix this!
+                if (transaction.DTAVAIL == "") transaction.DTAVAIL = null;
+                if (transaction.DTPOSTED == "") transaction.DTPOSTED = " ";
+                if (transaction.DTUSER == "") transaction.DTUSER = null;
+                if (transaction.MEMO == "") transaction.MEMO = null;
+                if (transaction.NAME == "") transaction.NAME = " ";
+                if (transaction.REFNUM == "") transaction.REFNUM = " ";
+                if (transaction.TRNAMT == "") transaction.TRNAMT = " ";
+            }
         }
 
         public void calculateClosingBalanceDetails()
