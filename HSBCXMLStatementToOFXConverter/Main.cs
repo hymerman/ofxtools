@@ -79,7 +79,7 @@ class Converter
         XmlNode startDateNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[1]/d:td[1]/d:p", namespaceManager);
         string startDateString = HtmlAgilityPack.HtmlEntity.DeEntitize(startDateNode.InnerText).Trim();
 
-        DateTime startDate = dateFromDateStringFixedUsingUpperBoundDate(startDateString, endDate).AddDays(1);
+        DateTime startDate = dateFromDateStringFixedUsingUpperBoundDate(startDateString, endDate.AddDays(-1)).AddDays(1);
 
         List<Transaction> transactions = new List<Transaction>();
 
