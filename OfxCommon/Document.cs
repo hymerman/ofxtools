@@ -28,17 +28,17 @@ namespace Ofx
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLIST();
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = DateTime.Now.ToString("yyyyMMdd");
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = DateTime.Now.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(DateTime.Now);
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN>();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSCURDEF.GBP; // todo: take this from some global preference
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSLEDGERBAL();
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = "0.00";
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = DateTime.Now.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(0);
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID = "0";
             m_statement.SIGNONMSGSRSV1 = new SimpleOfx.OFXSIGNONMSGSRSV1();
             m_statement.SIGNONMSGSRSV1.SONRS = new SimpleOfx.OFXSIGNONMSGSRSV1SONRS();
-            m_statement.SIGNONMSGSRSV1.SONRS.DTSERVER = DateTime.Now.ToString("yyyyMMddHHmmss");
+            m_statement.SIGNONMSGSRSV1.SONRS.DTSERVER = formatDateAsString(DateTime.Now);
             m_statement.SIGNONMSGSRSV1.SONRS.LANGUAGE = "ENG";
             m_statement.SIGNONMSGSRSV1.SONRS.STATUS = new SimpleOfx.STATUS();
             m_statement.SIGNONMSGSRSV1.SONRS.STATUS.CODE = "0";
@@ -188,14 +188,19 @@ namespace Ofx
 
             foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
             {
-                DateTime date = DateTime.ParseExact(transaction.DTPOSTED, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+                DateTime date = dateFromDateString(transaction.DTPOSTED);
 
                 if (date.CompareTo(earliest) == -1) earliest = date;
                 if (date.CompareTo(latest) == 1) latest = date;
             }
 
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = earliest.ToString("yyyyMMdd");
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = latest.ToString("yyyyMMdd");
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(earliest);
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(latest);
+        }
+
+        private static string formatDateAsString(DateTime date)
+        {
+            return date.ToString("yyyyMMdd");
         }
 
         private void validateStatement()
@@ -279,12 +284,17 @@ namespace Ofx
         {
             get
             {
-                return DateTime.ParseExact(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+                return dateFromDateString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = value.ToString("yyyyMMdd");
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(value);
             }
+        }
+
+        private DateTime dateFromDateString(string dateString)
+        {
+            return DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public void usePropertiesFrom(Document document)
@@ -296,11 +306,11 @@ namespace Ofx
         {
             get
             {
-                return DateTime.ParseExact(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+                return dateFromDateString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = value.ToString("yyyyMMdd");
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = formatDateAsString(value);
             }   
         }
 
@@ -320,11 +330,11 @@ namespace Ofx
         {
             get
             {
-                return DateTime.ParseExact(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+                return dateFromDateString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = value.ToString("yyyyMMdd");
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(value);
             }
         }
 
@@ -349,6 +359,42 @@ namespace Ofx
                 total += amount;
             }
             return total;
+        }
+
+        public string accountNumber
+        {
+            get
+            {
+                return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID;
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = value;
+            }
+        }
+
+        public string bankNumber
+        {
+            get
+            {
+                return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID;
+            }
+            set
+            {
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = value;
+            }
+        }
+
+        public void addTransaction(int amount, System.DateTime datePosted, string name, string type, string memo)
+        {
+            SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN();
+            transaction.DTPOSTED = formatDateAsString(datePosted);
+            transaction.MEMO = memo;
+            transaction.NAME = name;
+            transaction.TRNAMT = formatAsPoundsAndPenceString(amount);
+            transaction.TRNTYPE = (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE)System.Enum.Parse(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE), type, true);
+
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Add(transaction);
         }
     }
 }
