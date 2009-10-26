@@ -101,11 +101,11 @@ class Converter
             string type = HtmlAgilityPack.HtmlEntity.DeEntitize(convertTransactionTypeHSBCToOFX(typeNode.InnerText).Trim());
             string name = HtmlAgilityPack.HtmlEntity.DeEntitize(getInnerTextIgnoringLinks(nameNode));
             string moneyIn = HtmlAgilityPack.HtmlEntity.DeEntitize(moneyInNode.InnerText).Trim();
-            string moneyOut = "-" + HtmlAgilityPack.HtmlEntity.DeEntitize(moneyOutNode.InnerText).Trim();
-            string money = moneyIn == "" ? moneyOut : moneyIn; // todo: don't know if this is right
+            string moneyOut = HtmlAgilityPack.HtmlEntity.DeEntitize(moneyOutNode.InnerText).Trim();
+            int money = moneyIn == "" ? -moneyInPenceFromString(moneyOut) : moneyInPenceFromString(moneyIn);
 
             // todo: figure out how to get the memo
-            ofxDocument.addTransaction(moneyInPenceFromString(money), dateFromDateStringFixedUsingUpperBoundDate(date, endDate), name, type, null);
+            ofxDocument.addTransaction(money, dateFromDateStringFixedUsingUpperBoundDate(date, endDate), name, type, null);
         }
 
         XmlNode accountNumberNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:div[@class='extRowButton extPibRow hsbcRow']/d:div[@class='hsbcPadding']/d:div[@class='hsbcActiveAccount']/d:div[@class='hsbcAccountName']/d:div[@class='hsbcAccountNumber']", namespaceManager);
@@ -171,29 +171,10 @@ class Converter
         }
     }
 
-    private static string formatAsPoundsAndPenceString(int value)
-    {
-        int pounds = value / 100;
-        int pence = Math.Abs(value % 100);
-        return string.Format("{0}.{1:00}", pounds, pence);
-    }
-
     private static int moneyInPenceFromString(string moneyAsString)
     {
-        string[] parts = moneyAsString.Split('.');
-        int pounds = int.Parse(parts[0]);
-        int pence = int.Parse(parts[1]);
-        int value = pounds * 100;
-
-        if (pounds < 0)
-        {
-            value -= pence;
-        }
-        else
-        {
-            value += pence;
-        }
-
+        string fixedString = moneyAsString.Replace(".","");
+        int value = int.Parse(fixedString);
         return value;
     }
 }

@@ -52,6 +52,9 @@ namespace Ofx
 
         public void Load(string fileName)
         {
+            // log this for later
+            m_fileName = fileName;
+
             string dtdRelativePath = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
             string dtdFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetEntryAssembly().CodeBase).AbsolutePath), dtdRelativePath);
 
@@ -247,28 +250,17 @@ namespace Ofx
 
         private static int moneyInPenceFromString(string moneyAsString)
         {
-            string[] parts = moneyAsString.Split('.');
-            int pounds = int.Parse(parts[0]);
-            int pence = int.Parse(parts[1]);
-            int value = pounds * 100;
-
-            if (pounds < 0)
-            {
-                value -= pence;
-            }
-            else
-            {
-                value += pence;
-            }
-
+            string fixedString = moneyAsString.Replace(".", "");
+            int value = int.Parse(fixedString);
             return value;
         }
 
         private static string formatAsPoundsAndPenceString(int value)
         {
-            int pounds = value / 100;
-            int pence = Math.Abs(value % 100);
-            return string.Format("{0}.{1:00}", pounds, pence);
+            int pounds = Math.Abs(value) / 100;
+            int pence = Math.Abs(value) % 100;
+            string signCharacter = value < 0 ? "-" : "";
+            return signCharacter + string.Format("{0}.{1:00}", pounds, pence);
         }
 
         private void sortTransactionsByDate()

@@ -55,16 +55,19 @@
                 if (value < 0)
                 {
                     // todo: address duplicate transactions
-                    warnings.Add("overlapping date range between documents " + (index-1) + " and " + index);
+                    warnings.Add("overlapping date range between documents " + (documents[index - 1].m_fileName) + " and " + documents[index].m_fileName);
                 }
                 else if(value > 0)
                 {
-                    warnings.Add("gap in date range between documents " + (index-1) + " and " + index);
+                    warnings.Add("gap in date range between documents " + (documents[index - 1].m_fileName) + " and " + documents[index].m_fileName);
                 }
 
-                if (documents[index - 1].closingBalance + documents[index].sumOfTransactions() != documents[index].closingBalance)
+                int laterClosingBalance = documents[index].closingBalance;
+                int earlierClosingBalance = documents[index - 1].closingBalance;
+                int transactionsInBetween = documents[index].sumOfTransactions();
+                if (earlierClosingBalance + transactionsInBetween != laterClosingBalance)
                 {
-                    warnings.Add("Document " + index + "'s closing balance inconsistent with transactions and previous document's closing balance");
+                    warnings.Add("Document " + documents[index].m_fileName + " has a closing balance of " + earlierClosingBalance + " which is inconsistent with its transactions (totalling " + transactionsInBetween + ") and the closing balance of " + laterClosingBalance + " in " + (documents[index - 1].m_fileName));
                 }
 
                 // add all the transactions to the merged document

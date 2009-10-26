@@ -165,9 +165,10 @@ class Converter
 
     private static string formatAsPoundsAndPenceString(int value)
     {
-        int pounds = value / 100;
-        int pence = Math.Abs(value % 100);
-        return string.Format("{0}.{1:00}", pounds, pence);
+        int pounds = Math.Abs(value) / 100;
+        int pence = Math.Abs(value) % 100;
+        string signCharacter = value < 0 ? "-" : "";
+        return signCharacter + string.Format("{0}.{1:00}", pounds, pence);
     }
 
     private static string creditOrDebitStringFromValue(int value)
