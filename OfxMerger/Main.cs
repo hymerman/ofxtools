@@ -47,6 +47,13 @@
             merged.closingBalanceDate = documents[documents.Count - 1].closingBalanceDate;
             merged.closingBalance = documents[documents.Count - 1].closingBalance;
 
+            // add all the transactions from the first document to the merged document
+            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in documents[0].transactions)
+            {
+                // add to transactions of merged statement
+                merged.transactions.Add(transaction);
+            }
+
             System.Collections.Generic.List<string> warnings = new System.Collections.Generic.List<string>();
 
             for (int index = 1; index < documents.Count; ++index)
