@@ -48,7 +48,7 @@
             merged.closingBalance = documents[documents.Count - 1].closingBalance;
 
             // add all the transactions from the first document to the merged document
-            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in documents[0].transactions)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in documents[0].transactions)
             {
                 // add to transactions of merged statement
                 merged.transactions.Add(transaction);
@@ -78,7 +78,7 @@
                 }
 
                 // add all the transactions to the merged document
-                foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in documents[index].transactions)
+                foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in documents[index].transactions)
                 {
                     // add to transactions of merged statement
                     merged.transactions.Add(transaction);

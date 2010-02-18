@@ -66,8 +66,8 @@ namespace OfxEditor
             trntypeColumn.Name = "Type";
             trntypeColumn.ToolTipText = "Type of transaction. If you don't know, just choose 'other', or 'credit'/'debit'";
             trntypeColumn.DataPropertyName = "TRNTYPE";
-            trntypeColumn.DataSource = Enum.GetValues(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE));
-            trntypeColumn.ValueType = typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE);
+            trntypeColumn.DataSource = Enum.GetValues(typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE));
+            trntypeColumn.ValueType = typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE);
             dataGridView1.Columns.Add(trntypeColumn);
 
             DataGridViewTextBoxColumn dtpostedColumn = new DataGridViewTextBoxColumn();

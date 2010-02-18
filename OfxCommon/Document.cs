@@ -27,12 +27,12 @@ namespace Ofx
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = "";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLIST();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = new SimpleOfx.BankTranListType();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(DateTime.Now);
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN>();
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSCURDEF.GBP; // todo: take this from some global preference
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSLEDGERBAL();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.BankTranListTypeSTMTTRN>();
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = SimpleOfx.CurrencyEnum.GBP; // todo: take this from some global preference
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = new SimpleOfx.LedgerBalType();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(0);
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID = "0";
@@ -154,7 +154,7 @@ namespace Ofx
 
         private void removeEmptyData()
         {
-            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
             {
                 // the " " bits are kind of a workaround really, to prevent nodes like <NAME/> being written.
                 // todo: fix this!
@@ -189,7 +189,7 @@ namespace Ofx
             DateTime earliest = DateTime.MaxValue;
             DateTime latest = DateTime.MinValue;
 
-            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
             {
                 DateTime date = dateFromDateString(transaction.DTPOSTED);
 
@@ -213,13 +213,13 @@ namespace Ofx
 
         private void generateTransactionIDs()
         {
-            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
             {
                 hashTransaction(transaction);
             }
         }
 
-        private static void hashTransaction(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction)
+        private static void hashTransaction(SimpleOfx.BankTranListTypeSTMTTRN transaction)
         {
             string mungedTransaction = "";
             if (transaction.DTAVAIL != null) mungedTransaction += transaction.DTAVAIL;
@@ -330,7 +330,7 @@ namespace Ofx
             }
         }
 
-        public System.ComponentModel.BindingList<SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN> transactions
+        public System.ComponentModel.BindingList<SimpleOfx.BankTranListTypeSTMTTRN> transactions
         {
             get
             {
@@ -345,7 +345,7 @@ namespace Ofx
         public int sumOfTransactions()
         {
             int total = 0;
-            foreach (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
             {
                 int amount = moneyInPenceFromString(transaction.TRNAMT);
                 total += amount;
@@ -379,12 +379,12 @@ namespace Ofx
 
         public void addTransaction(int amount, System.DateTime datePosted, string name, string type, string memo)
         {
-            SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN transaction = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRN();
+            SimpleOfx.BankTranListTypeSTMTTRN transaction = new SimpleOfx.BankTranListTypeSTMTTRN();
             transaction.DTPOSTED = formatDateAsString(datePosted);
             transaction.MEMO = memo;
             transaction.NAME = name;
             transaction.TRNAMT = formatAsPoundsAndPenceString(amount);
-            transaction.TRNTYPE = (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE)System.Enum.Parse(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKTRANLISTSTMTTRNTRNTYPE), type, true);
+            transaction.TRNTYPE = (SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE)System.Enum.Parse(typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE), type, true);
 
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Add(transaction);
         }
