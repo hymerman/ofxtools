@@ -1,0 +1,7 @@
+I'm fed up with egg not allowing export of statements, and of HSBC not allowing export of previous statements, and terrible interface for downloading recent transactions. I wrote a couple of little tools in C# to extract OFX-formatted statements from the egg and HSBC websites.
+
+Currently only egg and HSBC (UK banks) are supported, I intend to add all the other financial institutes that I use soon (RBS, ING), and also to add a few tools I will find useful (an OFX file viewer since I find myself looking at them quite often, and a merger since that will make importing them into other software and websites much more efficient).
+
+I know it's a very specific set of tools, and that's because I wrote them for myself! I'm now sharing the code since I'm sure someone else will find it useful, and since I'm not going to spend a lot of time maintaining it I'm also providing the source, for others to modify when the websites inevitably alter their formatting.
+
+Update (2009/10/22): I've been a busy bee, and there's now a converter for ING Direct Savings, an editor (not just your run-of-the-mill viewer!), and a merger, which will also check for consistency in date ranges and transaction sums and closing balance details. Enough for me to properly keep tabs on my OFX files, at least. I'm going to do a bit more work improving the merger to remove duplicate transactions, then a bit of a tidy up and refactor, then I'll make some binaries available and finish up with this project.
