@@ -27,14 +27,14 @@ namespace Ofx
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = "";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = new SimpleOfx.BankTranListType();
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(DateTime.Now);
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(DateTime.Now);
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.BankTranListTypeSTMTTRN>();
+            TransactionList = new SimpleOfx.BankTranListType();
+            TransactionList.DTEND = formatDateAsString(DateTime.Now);
+            TransactionList.DTSTART = formatDateAsString(DateTime.Now);
+            TransactionList.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.BankTranListTypeSTMTTRN>();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = SimpleOfx.CurrencyEnum.GBP; // todo: take this from some global preference
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = new SimpleOfx.LedgerBalType();
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(0);
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = formatDateAsString(DateTime.Now);
+            LedgerBal = new SimpleOfx.LedgerBalType();
+            LedgerBal.BALAMT = formatAsPoundsAndPenceString(0);
+            LedgerBal.DTASOF = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID = "0";
             m_statement.SIGNONMSGSRSV1 = new SimpleOfx.OFXSIGNONMSGSRSV1();
             m_statement.SIGNONMSGSRSV1.SONRS = new SimpleOfx.OFXSIGNONMSGSRSV1SONRS();
@@ -154,7 +154,7 @@ namespace Ofx
 
         private void removeEmptyData()
         {
-            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in TransactionList.STMTTRN)
             {
                 // the " " bits are kind of a workaround really, to prevent nodes like <NAME/> being written.
                 // todo: fix this!
@@ -170,18 +170,18 @@ namespace Ofx
 
         public void calculateClosingBalanceDetails()
         {
-            if (m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Count < 0)
+            if (TransactionList.STMTTRN.Count < 0)
             {
                 return;
             }
 
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(sumOfTransactions());
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND;
+            LedgerBal.BALAMT = formatAsPoundsAndPenceString(sumOfTransactions());
+            LedgerBal.DTASOF = TransactionList.DTEND;
         }
 
         public void calculateDateRange()
         {
-            if (m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Count < 0)
+            if (TransactionList.STMTTRN.Count < 0)
             {
                 return;
             }
@@ -189,7 +189,7 @@ namespace Ofx
             DateTime earliest = DateTime.MaxValue;
             DateTime latest = DateTime.MinValue;
 
-            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in TransactionList.STMTTRN)
             {
                 DateTime date = dateFromDateString(transaction.DTPOSTED);
 
@@ -197,8 +197,8 @@ namespace Ofx
                 if (date.CompareTo(latest) == 1) latest = date;
             }
 
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(earliest);
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(latest);
+            TransactionList.DTSTART = formatDateAsString(earliest);
+            TransactionList.DTEND = formatDateAsString(latest);
         }
 
         private static string formatDateAsString(DateTime date)
@@ -213,7 +213,7 @@ namespace Ofx
 
         private void generateTransactionIDs()
         {
-            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in TransactionList.STMTTRN)
             {
                 hashTransaction(transaction);
             }
@@ -270,17 +270,153 @@ namespace Ofx
 
         public string m_fileName;
         public string m_version;
-        public SimpleOfx.OFX m_statement;
+        private SimpleOfx.OFX m_statement;
 
+        public SimpleOfx.BankTranListType TransactionList
+        {
+            get
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST;
+                }
+                else if (m_statement.CREDITCARDMSGSRSV1 != null)
+                {
+                    return m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.BANKTRANLIST;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = value;
+                }
+                else if (m_statement.CREDITCARDMSGSRSV1 != null)
+                {
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.BANKTRANLIST = value;
+                }
+            }
+        }
+
+        public SimpleOfx.LedgerBalType LedgerBal
+        {
+            get
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL;
+                }
+                else if (m_statement.CREDITCARDMSGSRSV1 != null)
+                {
+                    return m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.LEDGERBAL;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = value;
+                }
+                else if (m_statement.CREDITCARDMSGSRSV1 != null)
+                {
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.LEDGERBAL = value;
+                }
+            }
+        }
+
+        public string AccountId
+        {
+            get
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID;
+                }
+                else if (m_statement.CREDITCARDMSGSRSV1 != null)
+                {
+                    return m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM.ACCTID;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = value;
+                }
+                else if (m_statement.CREDITCARDMSGSRSV1 != null)
+                {
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM.ACCTID = value;
+                }
+            }
+        }
+
+        public SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE AccountType
+        {
+            get
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE;
+                }
+                else
+                {
+                    // todo: not entirely sure what to do for this one!
+                    return SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CREDITLINE;
+                }
+            }
+            set
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = value;
+                }
+            }
+        }
+
+        public string BankId
+        {
+            get
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID;
+                }
+                else
+                {
+                    // todo: not entirely sure what to do for this one!
+                    return null;
+                }
+            }
+            set
+            {
+                if (m_statement.BANKMSGSRSV1 != null)
+                {
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = value;
+                }
+            }
+        }
+        
         public DateTime startDate
         {
             get
             {
-                return dateFromDateString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART);
+                return dateFromDateString(TransactionList.DTSTART);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(value);
+                TransactionList.DTSTART = formatDateAsString(value);
             }
         }
 
@@ -298,11 +434,11 @@ namespace Ofx
         {
             get
             {
-                return dateFromDateString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF);
+                return dateFromDateString(LedgerBal.DTASOF);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = formatDateAsString(value);
+                LedgerBal.DTASOF = formatDateAsString(value);
             }   
         }
 
@@ -310,11 +446,11 @@ namespace Ofx
         {
             get
             {
-                return moneyInPenceFromString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT);
+                return moneyInPenceFromString(LedgerBal.BALAMT);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(value);
+                LedgerBal.BALAMT = formatAsPoundsAndPenceString(value);
             }   
         }
 
@@ -322,11 +458,11 @@ namespace Ofx
         {
             get
             {
-                return dateFromDateString(m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND);
+                return dateFromDateString(TransactionList.DTEND);
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(value);
+                TransactionList.DTEND = formatDateAsString(value);
             }
         }
 
@@ -334,18 +470,18 @@ namespace Ofx
         {
             get
             {
-                return m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN;
+                return TransactionList.STMTTRN;
             }
             set
             {
-                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = value;
+                TransactionList.STMTTRN = value;
             }
         }
 
         public int sumOfTransactions()
         {
             int total = 0;
-            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN)
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN transaction in TransactionList.STMTTRN)
             {
                 int amount = moneyInPenceFromString(transaction.TRNAMT);
                 total += amount;
@@ -386,7 +522,7 @@ namespace Ofx
             transaction.TRNAMT = formatAsPoundsAndPenceString(amount);
             transaction.TRNTYPE = (SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE)System.Enum.Parse(typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE), type, true);
 
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN.Add(transaction);
+            TransactionList.STMTTRN.Add(transaction);
         }
     }
 }
