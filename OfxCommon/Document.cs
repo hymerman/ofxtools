@@ -272,6 +272,47 @@ namespace Ofx
         public string m_version;
         private SimpleOfx.OFX m_statement;
 
+        public bool IsCreditCard
+        {
+            get
+            {
+                return m_statement.CREDITCARDMSGSRSV1 != null;
+            }
+            set
+            {
+                if (value == true && !IsCreditCard)
+                {
+                    m_statement.CREDITCARDMSGSRSV1 = new SimpleOfx.OFXCREDITCARDMSGSRSV1();
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS = new SimpleOfx.OFXCREDITCARDMSGSRSV1CCSTMTTRNRS();
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.STATUS = m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS;
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS = new SimpleOfx.OFXCREDITCARDMSGSRSV1CCSTMTTRNRSCCSTMTRS();
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.BANKTRANLIST = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST;
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CURDEF = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF;
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.LEDGERBAL = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL;
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM = new SimpleOfx.OFXCREDITCARDMSGSRSV1CCSTMTTRNRSCCSTMTRSCCACCTFROM();
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM.ACCTID = m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID;
+                    m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.TRNUID = m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID;
+                    m_statement.BANKMSGSRSV1 = null;
+                }
+                else if(value == false && IsCreditCard)
+                {
+                    m_statement.BANKMSGSRSV1 = new SimpleOfx.OFXBANKMSGSRSV1();
+                    m_statement.BANKMSGSRSV1.STMTTRNRS = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRS();
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.STATUS;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRS();
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.BANKTRANLIST;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CURDEF;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.LEDGERBAL;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROM();
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM.ACCTID;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.TRNUID;
+                    m_statement.CREDITCARDMSGSRSV1 = null;
+                }
+            }
+        }
+
         public SimpleOfx.BankTranListType TransactionList
         {
             get

@@ -54,6 +54,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateDateRangeButton = new System.Windows.Forms.Button();
             this.calculateClosingBalanceDetailsButton = new System.Windows.Forms.Button();
+            this.creditCardCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -268,11 +269,23 @@
             this.calculateClosingBalanceDetailsButton.UseVisualStyleBackColor = true;
             this.calculateClosingBalanceDetailsButton.Click += new System.EventHandler(this.calculateClosingBalanceDetailsButton_Click);
             // 
+            // creditCardCheckBox
+            // 
+            this.creditCardCheckBox.AutoSize = true;
+            this.creditCardCheckBox.Location = new System.Drawing.Point(195, 91);
+            this.creditCardCheckBox.Name = "creditCardCheckBox";
+            this.creditCardCheckBox.Size = new System.Drawing.Size(77, 17);
+            this.creditCardCheckBox.TabIndex = 20;
+            this.creditCardCheckBox.Text = "Credit card";
+            this.creditCardCheckBox.UseVisualStyleBackColor = true;
+            this.creditCardCheckBox.CheckedChanged += new System.EventHandler(this.creditCardCheckBox_CheckedChanged);
+            // 
             // OfxEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(703, 729);
+            this.Controls.Add(this.creditCardCheckBox);
             this.Controls.Add(this.calculateClosingBalanceDetailsButton);
             this.Controls.Add(this.calculateDateRangeButton);
             this.Controls.Add(this.ledgerBalanceAsOfLabel);
@@ -331,6 +344,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Button calculateDateRangeButton;
         private System.Windows.Forms.Button calculateClosingBalanceDetailsButton;
+        private System.Windows.Forms.CheckBox creditCardCheckBox;
     }
 }
 

@@ -213,5 +213,13 @@ namespace OfxEditor
                 ledgerBalanceAsOfTextBox.Text = document.LedgerBal.DTASOF;
             }
         }
+
+        private void creditCardCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (document != null)
+            {
+                document.IsCreditCard = creditCardCheckBox.Checked;
+            }
+        }
     }
 }
