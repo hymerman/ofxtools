@@ -198,16 +198,31 @@ class Converter
 
     private static string descriptionFromLongDescription(string longDescription)
     {
+        if (longDescription.Length < 23)
+        {
+            return "";
+        }
+
         return longDescription.Substring(0,23).Trim();
     }
 
     private static string noteFromLongDescription(string longDescription)
     {
+        if (longDescription.Length < 24 + 13)
+        {
+            return "";
+        }
+
         return longDescription.Substring(24, 13).Trim();
     }
 
     private static string countryFromLongDescription(string longDescription)
     {
+        if (longDescription.Length < 38 + 2)
+        {
+            return "";
+        }
+
         return longDescription.Substring(38, 2).Trim();
     }
 
