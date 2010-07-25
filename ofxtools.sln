@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSBCXMLStatementToOFXConverter", "HSBCXMLStatementToOFXConverter\HSBCXMLStatementToOFXConverter.csproj", "{7EA3BD89-F48C-446D-A9BF-E989B2089152}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EggXMLStatementToOFXConverter", "EggXMLStatementToOFXConverter\EggXMLStatementToOFXConverter.csproj", "{7F04F6A3-53DC-4632-9F2B-7CA979CA7CFC}"
