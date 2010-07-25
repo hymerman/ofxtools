@@ -463,7 +463,7 @@ namespace Ofx
 
         public static DateTime dateFromDateString(string dateString)
         {
-            return DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(dateString.Substring(0, 8), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public void usePropertiesFrom(Document document)
