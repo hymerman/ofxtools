@@ -248,7 +248,7 @@ namespace Ofx
             return sOutput.ToString();
         }
 
-        private static int moneyInPenceFromString(string moneyAsString)
+        public static int moneyInPenceFromString(string moneyAsString)
         {
             string fixedString = moneyAsString.Replace(".", "");
             int value = int.Parse(fixedString);
@@ -461,7 +461,7 @@ namespace Ofx
             }
         }
 
-        private DateTime dateFromDateString(string dateString)
+        public static DateTime dateFromDateString(string dateString)
         {
             return DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
         }
