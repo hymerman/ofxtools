@@ -21,17 +21,17 @@ namespace Ofx
             m_statement.BANKMSGSRSV1.STMTTRNRS = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRS();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS = new SimpleOfx.STATUS();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS.CODE = "0";
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS.SEVERITY = SimpleOfx.STATUSSEVERITY.INFO;
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STATUS.SEVERITY = "INFO";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRS();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROM();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = "";
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = "CHECKING";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST = new SimpleOfx.BankTranListType();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTEND = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.DTSTART = formatDateAsString(DateTime.Now);
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKTRANLIST.STMTTRN = new System.ComponentModel.BindingList<SimpleOfx.BankTranListTypeSTMTTRN>();
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = SimpleOfx.CurrencyEnum.GBP; // todo: take this from some global preference
+            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.CURDEF = "GBP";
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL = new SimpleOfx.LedgerBalType();
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.BALAMT = formatAsPoundsAndPenceString(0);
             m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.LEDGERBAL.DTASOF = formatDateAsString(DateTime.Now);
@@ -42,7 +42,7 @@ namespace Ofx
             m_statement.SIGNONMSGSRSV1.SONRS.LANGUAGE = "ENG";
             m_statement.SIGNONMSGSRSV1.SONRS.STATUS = new SimpleOfx.STATUS();
             m_statement.SIGNONMSGSRSV1.SONRS.STATUS.CODE = "0";
-            m_statement.SIGNONMSGSRSV1.SONRS.STATUS.SEVERITY = SimpleOfx.STATUSSEVERITY.INFO;
+            m_statement.SIGNONMSGSRSV1.SONRS.STATUS.SEVERITY = "INFO";
         }
 
         public Document(string fileName)
@@ -306,7 +306,7 @@ namespace Ofx
                     m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = new SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROM();
                     m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTID = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM.ACCTID;
                     m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.BANKID = "";
-                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CHECKING;
+                    m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM.ACCTTYPE = "CHECKING";
                     m_statement.BANKMSGSRSV1.STMTTRNRS.TRNUID = m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.TRNUID;
                     m_statement.CREDITCARDMSGSRSV1 = null;
                 }
@@ -403,7 +403,7 @@ namespace Ofx
             }
         }
 
-        public SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE AccountType
+        public string AccountType
         {
             get
             {
@@ -414,7 +414,7 @@ namespace Ofx
                 else
                 {
                     // todo: not entirely sure what to do for this one!
-                    return SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE.CREDITLINE;
+                    return null;
                 }
             }
             set
@@ -561,7 +561,7 @@ namespace Ofx
             transaction.MEMO = memo;
             transaction.NAME = name;
             transaction.TRNAMT = formatAsPoundsAndPenceString(amount);
-            transaction.TRNTYPE = (SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE)System.Enum.Parse(typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE), type, true);
+            transaction.TRNTYPE = type;
 
             TransactionList.STMTTRN.Add(transaction);
         }

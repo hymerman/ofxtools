@@ -40,7 +40,6 @@
             this.statementStartDateLabel = new System.Windows.Forms.Label();
             this.statementEndDateLabel = new System.Windows.Forms.Label();
             this.ledgerBalanceLabel = new System.Windows.Forms.Label();
-            this.accountTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ledgerBalanceAsOfTextBox = new System.Windows.Forms.TextBox();
             this.ledgerBalanceAsOfLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -55,6 +54,7 @@
             this.calculateDateRangeButton = new System.Windows.Forms.Button();
             this.calculateClosingBalanceDetailsButton = new System.Windows.Forms.Button();
             this.creditCardCheckBox = new System.Windows.Forms.CheckBox();
+            this.accountTypeTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -155,14 +155,6 @@
             this.ledgerBalanceLabel.Size = new System.Drawing.Size(81, 13);
             this.ledgerBalanceLabel.TabIndex = 13;
             this.ledgerBalanceLabel.Text = "Ledger balance";
-            // 
-            // accountTypeComboBox
-            // 
-            this.accountTypeComboBox.FormattingEnabled = true;
-            this.accountTypeComboBox.Location = new System.Drawing.Point(88, 36);
-            this.accountTypeComboBox.Name = "accountTypeComboBox";
-            this.accountTypeComboBox.Size = new System.Drawing.Size(121, 21);
-            this.accountTypeComboBox.TabIndex = 14;
             // 
             // ledgerBalanceAsOfTextBox
             // 
@@ -280,17 +272,24 @@
             this.creditCardCheckBox.UseVisualStyleBackColor = true;
             this.creditCardCheckBox.CheckedChanged += new System.EventHandler(this.creditCardCheckBox_CheckedChanged);
             // 
+            // accountTypeTextBox
+            // 
+            this.accountTypeTextBox.Location = new System.Drawing.Point(88, 36);
+            this.accountTypeTextBox.Name = "accountTypeTextBox";
+            this.accountTypeTextBox.Size = new System.Drawing.Size(100, 20);
+            this.accountTypeTextBox.TabIndex = 21;
+            // 
             // OfxEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(703, 729);
+            this.Controls.Add(this.accountTypeTextBox);
             this.Controls.Add(this.creditCardCheckBox);
             this.Controls.Add(this.calculateClosingBalanceDetailsButton);
             this.Controls.Add(this.calculateDateRangeButton);
             this.Controls.Add(this.ledgerBalanceAsOfLabel);
             this.Controls.Add(this.ledgerBalanceAsOfTextBox);
-            this.Controls.Add(this.accountTypeComboBox);
             this.Controls.Add(this.ledgerBalanceLabel);
             this.Controls.Add(this.statementEndDateLabel);
             this.Controls.Add(this.statementStartDateLabel);
@@ -330,7 +329,6 @@
         private System.Windows.Forms.Label statementStartDateLabel;
         private System.Windows.Forms.Label statementEndDateLabel;
         private System.Windows.Forms.Label ledgerBalanceLabel;
-        private System.Windows.Forms.ComboBox accountTypeComboBox;
         private System.Windows.Forms.TextBox ledgerBalanceAsOfTextBox;
         private System.Windows.Forms.Label ledgerBalanceAsOfLabel;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -345,6 +343,7 @@
         private System.Windows.Forms.Button calculateDateRangeButton;
         private System.Windows.Forms.Button calculateClosingBalanceDetailsButton;
         private System.Windows.Forms.CheckBox creditCardCheckBox;
+        private System.Windows.Forms.TextBox accountTypeTextBox;
     }
 }
 

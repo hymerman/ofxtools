@@ -62,12 +62,10 @@ namespace OfxEditor
             dataGridView1.AllowUserToResizeColumns = true;
             dataGridView1.AllowUserToResizeRows = false;
 
-            DataGridViewComboBoxColumn trntypeColumn = new DataGridViewComboBoxColumn();
+            DataGridViewTextBoxColumn trntypeColumn = new DataGridViewTextBoxColumn();
             trntypeColumn.Name = "Type";
-            trntypeColumn.ToolTipText = "Type of transaction. If you don't know, just choose 'other', or 'credit'/'debit'";
+            trntypeColumn.ToolTipText = "Type of transaction. If you don't know, CREDIT and DEBIT are safe choices";
             trntypeColumn.DataPropertyName = "TRNTYPE";
-            trntypeColumn.DataSource = Enum.GetValues(typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE));
-            trntypeColumn.ValueType = typeof(SimpleOfx.BankTranListTypeSTMTTRNTRNTYPE);
             dataGridView1.Columns.Add(trntypeColumn);
 
             DataGridViewTextBoxColumn dtpostedColumn = new DataGridViewTextBoxColumn();
@@ -112,8 +110,7 @@ namespace OfxEditor
             // todo: some easier way to put dates in date cells
             // todo: validation/auto-fixing of amount cells
 
-            accountTypeComboBox.DataSource = System.Enum.GetValues(typeof(SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE));
-            accountTypeComboBox.SelectedItem = document.AccountType;
+            accountTypeTextBox.Text = document.AccountType;
             accountIDTextBox.Text = document.AccountId;
             bankIDTextBox.Text = document.BankId;
             statementStartDateTextBox.Text = document.TransactionList.DTSTART;
@@ -173,7 +170,7 @@ namespace OfxEditor
         private void populateDocumentFromControls()
         {
             document.AccountId = accountIDTextBox.Text;
-            document.AccountType = (SimpleOfx.OFXBANKMSGSRSV1STMTTRNRSSTMTRSBANKACCTFROMACCTTYPE)accountTypeComboBox.SelectedItem;
+            document.AccountType = accountTypeTextBox.Text;
             document.BankId = bankIDTextBox.Text;
             document.TransactionList.DTEND = statementEndDateTextBox.Text;
             document.TransactionList.DTSTART = statementStartDateTextBox.Text;
