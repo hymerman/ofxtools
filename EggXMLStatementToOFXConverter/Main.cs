@@ -182,7 +182,7 @@ class Converter
         string[] parts = moneyAsString.Substring(1).Split(' ');
         string[] partsOfMoney = parts[0].Split('.');
 
-        int pounds = Math.Abs(int.Parse(partsOfMoney[0]));
+        int pounds = Math.Abs(int.Parse(partsOfMoney[0].Replace(",","")));
         int pence = int.Parse(partsOfMoney[1]);
 
         int money = pounds * 100 + pence;
