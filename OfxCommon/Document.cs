@@ -480,7 +480,16 @@ namespace Ofx
 
         public void usePropertiesFrom(Document document)
         {
-            m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM;
+            if (document.m_statement.BANKMSGSRSV1 != null)
+            {
+                IsCreditCard = false;
+                m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM = document.m_statement.BANKMSGSRSV1.STMTTRNRS.STMTRS.BANKACCTFROM;
+            }
+            else
+            {
+                IsCreditCard = true;
+                m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM = document.m_statement.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS.CCACCTFROM;
+            }
         }
 
         public DateTime closingBalanceDate
