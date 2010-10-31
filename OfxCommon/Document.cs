@@ -94,6 +94,18 @@ namespace Ofx
             otherreader.Close();
         }
 
+        public void Save()
+        {
+            if (m_fileName != null)
+            {
+                Save(m_fileName);
+            }
+            else
+            {
+                throw new Exception("Can't save without specifying a file name");
+            }
+        }
+
         public void Save(string filename)
         {
             //sortTransactionsByDate();
