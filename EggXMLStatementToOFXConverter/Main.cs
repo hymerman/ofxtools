@@ -34,12 +34,12 @@ class Converter
         XmlNamespaceManager namespaceManager = new XmlNamespaceManager(document.NameTable);
         namespaceManager.AddNamespace("d", "http://www.w3.org/1999/xhtml");
 
-        XmlNode closingBalanceNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:table[@id='tblTransactionsTable']/d:tfoot/d:tr[1]/d:td[@class='money']", namespaceManager);
+        XmlNode closingBalanceNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@id='maincontent']/d:table[@id='tblTransactionsTable']/d:tfoot/d:tr[1]/d:td[@class='money']", namespaceManager);
         int closingBalance = moneyInPenceFromString(closingBalanceNode.InnerText);
 
         List<Transaction> transactions = new List<Transaction>();
 
-        XmlNodeList transactionNodes = document.SelectNodes("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:table[@id='tblTransactionsTable']/d:tbody/d:tr[position()>1]", namespaceManager);
+        XmlNodeList transactionNodes = document.SelectNodes("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@id='maincontent']/d:table[@id='tblTransactionsTable']/d:tbody/d:tr[position()>1]", namespaceManager);
         foreach (XmlNode node in transactionNodes)
         {
             XmlNode dateNode = node.SelectSingleNode("d:td[@class='date']", namespaceManager);
@@ -60,7 +60,7 @@ class Converter
             }
         }
 
-        XmlNode statementDateNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@class='floatleft staticdatablock equalheight narrow ']/d:fieldset/d:div[1]/d:select/d:option[@selected='selected']", namespaceManager);
+        XmlNode statementDateNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@id='maincontent']/d:div[@class='floatleft staticdatablock equalheight narrow ']/d:fieldset/d:div[1]/d:select/d:option[@selected='selected']", namespaceManager);
 
         string[] parts = statementDateNode.InnerText.Split(new string[] {" to "}, StringSplitOptions.None);
 
@@ -68,7 +68,7 @@ class Converter
         DateTime statementStart = DateTime.ParseExact(parts[0].Trim(), "dd MMMM yyyy", provider);
         DateTime statementEnd = DateTime.ParseExact(parts[1].Trim(), "dd MMMM yyyy", provider).AddDays(-1);
 
-        XmlNode accountNumberNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[1]/d:div[2]/d:span[@id='lblCardNumber']", namespaceManager);
+        XmlNode accountNumberNode = document.SelectSingleNode("/d:html/d:body/d:form[1]/d:div[@id='page']/d:div[@id='area2']/d:div[@id='maincontent']/d:div[1]/d:div[2]/d:span[@id='lblCardNumber']", namespaceManager);
         long accountNumber = long.Parse(accountNumberNode.InnerText.Replace(" ", ""));
 
         string outputFileName = string.Format("{0} - {1}.ofx", statementStart.ToString("yyyy-MM-dd"), statementEnd.ToString("yyyy-MM-dd"));
