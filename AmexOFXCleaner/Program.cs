@@ -50,7 +50,7 @@ namespace AmexOFXCleaner
             writer.Close();
 
             // Open up the fixed file again since there are some more things to do to it
-            Ofx.Document document = new Ofx.Document(path);
+            Ofx.Document document = new Ofx.Document(path, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
 
             bool containsPayment = false;
             int previousPayment = 0;

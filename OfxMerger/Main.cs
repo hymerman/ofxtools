@@ -19,7 +19,7 @@
                     System.IO.FileInfo info = new System.IO.FileInfo(filename);
                     if (System.String.Compare(info.Extension, ".ofx", true) == 0)
                     {
-                        Ofx.Document file = new Ofx.Document(filename);
+                        Ofx.Document file = new Ofx.Document(filename, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
                         documents.Add(file);
                     }
                 }
@@ -32,7 +32,7 @@
                 // load each argument as an ofx file
                 foreach (string filename in args)
                 {
-                    Ofx.Document file = new Ofx.Document(filename);
+                    Ofx.Document file = new Ofx.Document(filename, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
                     documents.Add(file);
                 }
             }

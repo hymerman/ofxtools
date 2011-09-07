@@ -45,7 +45,7 @@ namespace OfxEditor
 
         private void loadFile()
         {
-            document = new Ofx.Document(fileName);
+            document = new Ofx.Document(fileName, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
 
             bindControlsToDocument();
         }

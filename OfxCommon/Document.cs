@@ -45,17 +45,17 @@ namespace Ofx
             m_statement.SIGNONMSGSRSV1.SONRS.STATUS.SEVERITY = "INFO";
         }
 
-        public Document(string fileName)
+        public Document(string fileName, string ofxDtd)
         {
-            Load(fileName);
+            Load(fileName, ofxDtd);
         }
 
-        public void Load(string fileName)
+        public void Load(string fileName, string ofxDtd)
         {
             // log this for later
             m_fileName = fileName;
 
-            string dtdRelativePath = "../../../external/SgmlReader/TestSuite/ofx160.dtd";
+            string dtdRelativePath = ofxDtd;
             string dtdFullPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetEntryAssembly().CodeBase).AbsolutePath), dtdRelativePath);
 
             // deserialise statement from file
