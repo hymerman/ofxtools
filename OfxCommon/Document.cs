@@ -586,5 +586,25 @@ namespace Ofx
 
             TransactionList.STMTTRN.Add(transaction);
         }
+
+        public FineAntsCore.Statement ConvertToFineAntsStatement()
+        {
+            FineAntsCore.Statement statement = new FineAntsCore.Statement();
+
+            foreach (SimpleOfx.BankTranListTypeSTMTTRN ofxTransaction in this.transactions)
+            {
+                int amount = Ofx.Document.moneyInPenceFromString(ofxTransaction.TRNAMT);
+                DateTime date = Ofx.Document.dateFromDateString(ofxTransaction.DTPOSTED);
+
+                statement.Transactions.Add(new FineAntsCore.Transaction(amount, date));
+            }
+
+            return statement;
+        }
+
+        public void LoadFromFineAntsStatement(FineAntsCore.Statement statement)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

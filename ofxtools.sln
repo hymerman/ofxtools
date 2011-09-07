@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ofx", "OfxCommon\Ofx.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmexOFXCleaner", "AmexOFXCleaner\AmexOFXCleaner.csproj", "{753AB2D2-5579-432D-AE83-B530E0829AF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineAntsStatementFromOFX", "FineAntsStatementFromOFX\FineAntsStatementFromOFX.csproj", "{D0CECA03-8334-427E-BB0B-17CF919E84EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{753AB2D2-5579-432D-AE83-B530E0829AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{753AB2D2-5579-432D-AE83-B530E0829AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{753AB2D2-5579-432D-AE83-B530E0829AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
