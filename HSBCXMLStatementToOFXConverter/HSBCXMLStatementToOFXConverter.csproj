@@ -64,6 +64,10 @@
     <Compile Include="Main.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FineAntsCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\external\FineAnts\FineAntsCore.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.3.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\external\HtmlAgilityPack20\HtmlAgilityPack\bin\Debug\HtmlAgilityPack.dll</HintPath>
