@@ -29,19 +29,10 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.accountIDTextBox = new System.Windows.Forms.TextBox();
-            this.bankIDTextBox = new System.Windows.Forms.TextBox();
-            this.statementStartDateTextBox = new System.Windows.Forms.TextBox();
-            this.statementEndDateTextBox = new System.Windows.Forms.TextBox();
-            this.ledgerBalanceTextBox = new System.Windows.Forms.TextBox();
-            this.accountTypeLabel = new System.Windows.Forms.Label();
-            this.accountIDLabel = new System.Windows.Forms.Label();
-            this.bankIDLabel = new System.Windows.Forms.Label();
-            this.statementStartDateLabel = new System.Windows.Forms.Label();
-            this.statementEndDateLabel = new System.Windows.Forms.Label();
-            this.ledgerBalanceLabel = new System.Windows.Forms.Label();
-            this.ledgerBalanceAsOfTextBox = new System.Windows.Forms.TextBox();
-            this.ledgerBalanceAsOfLabel = new System.Windows.Forms.Label();
+            this.closingBalanceTextBox = new System.Windows.Forms.TextBox();
+            this.startDateLabel = new System.Windows.Forms.Label();
+            this.endDateLabel = new System.Windows.Forms.Label();
+            this.closingBalanceLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,8 +44,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calculateDateRangeButton = new System.Windows.Forms.Button();
             this.calculateClosingBalanceDetailsButton = new System.Windows.Forms.Button();
-            this.creditCardCheckBox = new System.Windows.Forms.CheckBox();
-            this.accountTypeTextBox = new System.Windows.Forms.TextBox();
+            this.startDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.endDatePicker = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -62,115 +53,44 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 115);
+            this.dataGridView1.Location = new System.Drawing.Point(11, 60);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(680, 603);
+            this.dataGridView1.Size = new System.Drawing.Size(680, 640);
             this.dataGridView1.TabIndex = 0;
             // 
-            // accountIDTextBox
+            // closingBalanceTextBox
             // 
-            this.accountIDTextBox.Location = new System.Drawing.Point(88, 63);
-            this.accountIDTextBox.Name = "accountIDTextBox";
-            this.accountIDTextBox.Size = new System.Drawing.Size(100, 20);
-            this.accountIDTextBox.TabIndex = 3;
+            this.closingBalanceTextBox.Location = new System.Drawing.Point(553, 30);
+            this.closingBalanceTextBox.Name = "closingBalanceTextBox";
+            this.closingBalanceTextBox.Size = new System.Drawing.Size(64, 20);
+            this.closingBalanceTextBox.TabIndex = 7;
             // 
-            // bankIDTextBox
+            // startDateLabel
             // 
-            this.bankIDTextBox.Location = new System.Drawing.Point(88, 89);
-            this.bankIDTextBox.Name = "bankIDTextBox";
-            this.bankIDTextBox.Size = new System.Drawing.Size(100, 20);
-            this.bankIDTextBox.TabIndex = 4;
+            this.startDateLabel.AutoSize = true;
+            this.startDateLabel.Location = new System.Drawing.Point(12, 30);
+            this.startDateLabel.Name = "startDateLabel";
+            this.startDateLabel.Size = new System.Drawing.Size(53, 13);
+            this.startDateLabel.TabIndex = 11;
+            this.startDateLabel.Text = "Start date";
             // 
-            // statementStartDateTextBox
+            // endDateLabel
             // 
-            this.statementStartDateTextBox.Location = new System.Drawing.Point(358, 36);
-            this.statementStartDateTextBox.Name = "statementStartDateTextBox";
-            this.statementStartDateTextBox.Size = new System.Drawing.Size(100, 20);
-            this.statementStartDateTextBox.TabIndex = 5;
+            this.endDateLabel.AutoSize = true;
+            this.endDateLabel.Location = new System.Drawing.Point(203, 30);
+            this.endDateLabel.Name = "endDateLabel";
+            this.endDateLabel.Size = new System.Drawing.Size(50, 13);
+            this.endDateLabel.TabIndex = 12;
+            this.endDateLabel.Text = "End date";
             // 
-            // statementEndDateTextBox
+            // closingBalanceLabel
             // 
-            this.statementEndDateTextBox.Location = new System.Drawing.Point(358, 62);
-            this.statementEndDateTextBox.Name = "statementEndDateTextBox";
-            this.statementEndDateTextBox.Size = new System.Drawing.Size(100, 20);
-            this.statementEndDateTextBox.TabIndex = 6;
-            // 
-            // ledgerBalanceTextBox
-            // 
-            this.ledgerBalanceTextBox.Location = new System.Drawing.Point(592, 36);
-            this.ledgerBalanceTextBox.Name = "ledgerBalanceTextBox";
-            this.ledgerBalanceTextBox.Size = new System.Drawing.Size(100, 20);
-            this.ledgerBalanceTextBox.TabIndex = 7;
-            // 
-            // accountTypeLabel
-            // 
-            this.accountTypeLabel.AutoSize = true;
-            this.accountTypeLabel.Location = new System.Drawing.Point(12, 39);
-            this.accountTypeLabel.Name = "accountTypeLabel";
-            this.accountTypeLabel.Size = new System.Drawing.Size(70, 13);
-            this.accountTypeLabel.TabIndex = 8;
-            this.accountTypeLabel.Text = "Account type";
-            // 
-            // accountIDLabel
-            // 
-            this.accountIDLabel.AutoSize = true;
-            this.accountIDLabel.Location = new System.Drawing.Point(21, 66);
-            this.accountIDLabel.Name = "accountIDLabel";
-            this.accountIDLabel.Size = new System.Drawing.Size(61, 13);
-            this.accountIDLabel.TabIndex = 9;
-            this.accountIDLabel.Text = "Account ID";
-            // 
-            // bankIDLabel
-            // 
-            this.bankIDLabel.AutoSize = true;
-            this.bankIDLabel.Location = new System.Drawing.Point(36, 92);
-            this.bankIDLabel.Name = "bankIDLabel";
-            this.bankIDLabel.Size = new System.Drawing.Size(46, 13);
-            this.bankIDLabel.TabIndex = 10;
-            this.bankIDLabel.Text = "Bank ID";
-            // 
-            // statementStartDateLabel
-            // 
-            this.statementStartDateLabel.AutoSize = true;
-            this.statementStartDateLabel.Location = new System.Drawing.Point(250, 39);
-            this.statementStartDateLabel.Name = "statementStartDateLabel";
-            this.statementStartDateLabel.Size = new System.Drawing.Size(102, 13);
-            this.statementStartDateLabel.TabIndex = 11;
-            this.statementStartDateLabel.Text = "Statement start date";
-            // 
-            // statementEndDateLabel
-            // 
-            this.statementEndDateLabel.AutoSize = true;
-            this.statementEndDateLabel.Location = new System.Drawing.Point(252, 65);
-            this.statementEndDateLabel.Name = "statementEndDateLabel";
-            this.statementEndDateLabel.Size = new System.Drawing.Size(100, 13);
-            this.statementEndDateLabel.TabIndex = 12;
-            this.statementEndDateLabel.Text = "Statement end date";
-            // 
-            // ledgerBalanceLabel
-            // 
-            this.ledgerBalanceLabel.AutoSize = true;
-            this.ledgerBalanceLabel.Location = new System.Drawing.Point(505, 39);
-            this.ledgerBalanceLabel.Name = "ledgerBalanceLabel";
-            this.ledgerBalanceLabel.Size = new System.Drawing.Size(81, 13);
-            this.ledgerBalanceLabel.TabIndex = 13;
-            this.ledgerBalanceLabel.Text = "Ledger balance";
-            // 
-            // ledgerBalanceAsOfTextBox
-            // 
-            this.ledgerBalanceAsOfTextBox.Location = new System.Drawing.Point(592, 62);
-            this.ledgerBalanceAsOfTextBox.Name = "ledgerBalanceAsOfTextBox";
-            this.ledgerBalanceAsOfTextBox.Size = new System.Drawing.Size(100, 20);
-            this.ledgerBalanceAsOfTextBox.TabIndex = 15;
-            // 
-            // ledgerBalanceAsOfLabel
-            // 
-            this.ledgerBalanceAsOfLabel.AutoSize = true;
-            this.ledgerBalanceAsOfLabel.Location = new System.Drawing.Point(543, 65);
-            this.ledgerBalanceAsOfLabel.Name = "ledgerBalanceAsOfLabel";
-            this.ledgerBalanceAsOfLabel.Size = new System.Drawing.Size(43, 13);
-            this.ledgerBalanceAsOfLabel.TabIndex = 16;
-            this.ledgerBalanceAsOfLabel.Text = "... As of";
+            this.closingBalanceLabel.AutoSize = true;
+            this.closingBalanceLabel.Location = new System.Drawing.Point(465, 30);
+            this.closingBalanceLabel.Name = "closingBalanceLabel";
+            this.closingBalanceLabel.Size = new System.Drawing.Size(82, 13);
+            this.closingBalanceLabel.TabIndex = 13;
+            this.closingBalanceLabel.Text = "Closing balance";
             // 
             // menuStrip1
             // 
@@ -243,9 +163,9 @@
             // 
             // calculateDateRangeButton
             // 
-            this.calculateDateRangeButton.Location = new System.Drawing.Point(358, 89);
+            this.calculateDateRangeButton.Location = new System.Drawing.Point(388, 30);
             this.calculateDateRangeButton.Name = "calculateDateRangeButton";
-            this.calculateDateRangeButton.Size = new System.Drawing.Size(100, 23);
+            this.calculateDateRangeButton.Size = new System.Drawing.Size(71, 23);
             this.calculateDateRangeButton.TabIndex = 18;
             this.calculateDateRangeButton.Text = "Calculate";
             this.calculateDateRangeButton.UseVisualStyleBackColor = true;
@@ -253,54 +173,41 @@
             // 
             // calculateClosingBalanceDetailsButton
             // 
-            this.calculateClosingBalanceDetailsButton.Location = new System.Drawing.Point(592, 89);
+            this.calculateClosingBalanceDetailsButton.Location = new System.Drawing.Point(623, 31);
             this.calculateClosingBalanceDetailsButton.Name = "calculateClosingBalanceDetailsButton";
-            this.calculateClosingBalanceDetailsButton.Size = new System.Drawing.Size(99, 23);
+            this.calculateClosingBalanceDetailsButton.Size = new System.Drawing.Size(68, 23);
             this.calculateClosingBalanceDetailsButton.TabIndex = 19;
             this.calculateClosingBalanceDetailsButton.Text = "Calculate";
             this.calculateClosingBalanceDetailsButton.UseVisualStyleBackColor = true;
             this.calculateClosingBalanceDetailsButton.Click += new System.EventHandler(this.calculateClosingBalanceDetailsButton_Click);
             // 
-            // creditCardCheckBox
+            // startDatePicker
             // 
-            this.creditCardCheckBox.AutoSize = true;
-            this.creditCardCheckBox.Location = new System.Drawing.Point(195, 91);
-            this.creditCardCheckBox.Name = "creditCardCheckBox";
-            this.creditCardCheckBox.Size = new System.Drawing.Size(77, 17);
-            this.creditCardCheckBox.TabIndex = 20;
-            this.creditCardCheckBox.Text = "Credit card";
-            this.creditCardCheckBox.UseVisualStyleBackColor = true;
-            this.creditCardCheckBox.CheckedChanged += new System.EventHandler(this.creditCardCheckBox_CheckedChanged);
+            this.startDatePicker.Location = new System.Drawing.Point(71, 30);
+            this.startDatePicker.Name = "startDatePicker";
+            this.startDatePicker.Size = new System.Drawing.Size(126, 20);
+            this.startDatePicker.TabIndex = 20;
             // 
-            // accountTypeTextBox
+            // endDatePicker
             // 
-            this.accountTypeTextBox.Location = new System.Drawing.Point(88, 36);
-            this.accountTypeTextBox.Name = "accountTypeTextBox";
-            this.accountTypeTextBox.Size = new System.Drawing.Size(100, 20);
-            this.accountTypeTextBox.TabIndex = 21;
+            this.endDatePicker.Location = new System.Drawing.Point(259, 30);
+            this.endDatePicker.Name = "endDatePicker";
+            this.endDatePicker.Size = new System.Drawing.Size(123, 20);
+            this.endDatePicker.TabIndex = 21;
             // 
             // OfxEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(703, 729);
-            this.Controls.Add(this.accountTypeTextBox);
-            this.Controls.Add(this.creditCardCheckBox);
+            this.ClientSize = new System.Drawing.Size(703, 712);
+            this.Controls.Add(this.endDatePicker);
+            this.Controls.Add(this.startDatePicker);
             this.Controls.Add(this.calculateClosingBalanceDetailsButton);
             this.Controls.Add(this.calculateDateRangeButton);
-            this.Controls.Add(this.ledgerBalanceAsOfLabel);
-            this.Controls.Add(this.ledgerBalanceAsOfTextBox);
-            this.Controls.Add(this.ledgerBalanceLabel);
-            this.Controls.Add(this.statementEndDateLabel);
-            this.Controls.Add(this.statementStartDateLabel);
-            this.Controls.Add(this.bankIDLabel);
-            this.Controls.Add(this.accountIDLabel);
-            this.Controls.Add(this.accountTypeLabel);
-            this.Controls.Add(this.ledgerBalanceTextBox);
-            this.Controls.Add(this.statementEndDateTextBox);
-            this.Controls.Add(this.statementStartDateTextBox);
-            this.Controls.Add(this.bankIDTextBox);
-            this.Controls.Add(this.accountIDTextBox);
+            this.Controls.Add(this.closingBalanceLabel);
+            this.Controls.Add(this.endDateLabel);
+            this.Controls.Add(this.startDateLabel);
+            this.Controls.Add(this.closingBalanceTextBox);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -318,19 +225,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox accountIDTextBox;
-        private System.Windows.Forms.TextBox bankIDTextBox;
-        private System.Windows.Forms.TextBox statementStartDateTextBox;
-        private System.Windows.Forms.TextBox statementEndDateTextBox;
-        private System.Windows.Forms.TextBox ledgerBalanceTextBox;
-        private System.Windows.Forms.Label accountTypeLabel;
-        private System.Windows.Forms.Label accountIDLabel;
-        private System.Windows.Forms.Label bankIDLabel;
-        private System.Windows.Forms.Label statementStartDateLabel;
-        private System.Windows.Forms.Label statementEndDateLabel;
-        private System.Windows.Forms.Label ledgerBalanceLabel;
-        private System.Windows.Forms.TextBox ledgerBalanceAsOfTextBox;
-        private System.Windows.Forms.Label ledgerBalanceAsOfLabel;
+        private System.Windows.Forms.TextBox closingBalanceTextBox;
+        private System.Windows.Forms.Label startDateLabel;
+        private System.Windows.Forms.Label endDateLabel;
+        private System.Windows.Forms.Label closingBalanceLabel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
@@ -342,8 +240,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Button calculateDateRangeButton;
         private System.Windows.Forms.Button calculateClosingBalanceDetailsButton;
-        private System.Windows.Forms.CheckBox creditCardCheckBox;
-        private System.Windows.Forms.TextBox accountTypeTextBox;
+        private System.Windows.Forms.DateTimePicker startDatePicker;
+        private System.Windows.Forms.DateTimePicker endDatePicker;
     }
 }
 

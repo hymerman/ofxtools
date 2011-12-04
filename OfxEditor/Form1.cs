@@ -6,7 +6,7 @@ namespace OfxEditor
     public partial class OfxEditor : Form
     {
         private string fileName;
-        private Ofx.Document document;
+        private FineAntsCore.Statement statement;
 
         public OfxEditor(string[] fileNames)
         {
@@ -33,7 +33,7 @@ namespace OfxEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
+            openFileDialog.Filter = "FineAnts files (*.statement)|*.statement|ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -45,7 +45,17 @@ namespace OfxEditor
 
         private void loadFile()
         {
-            document = new Ofx.Document(fileName, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(fileName);
+
+            if (fileInfo.Extension == ".ofx")
+            {
+                Ofx.Document document = new Ofx.Document(fileInfo.FullName, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
+                statement = document.ConvertToFineAntsStatement();
+            }
+            else if (fileInfo.Extension == ".statement")
+            {
+                statement = FineAntsCore.Statement.DeserialiseStatement(fileInfo.FullName);
+            }
 
             bindControlsToDocument();
         }
@@ -62,61 +72,50 @@ namespace OfxEditor
             dataGridView1.AllowUserToResizeColumns = true;
             dataGridView1.AllowUserToResizeRows = false;
 
-            DataGridViewTextBoxColumn trntypeColumn = new DataGridViewTextBoxColumn();
-            trntypeColumn.Name = "Type";
-            trntypeColumn.ToolTipText = "Type of transaction. If you don't know, CREDIT and DEBIT are safe choices";
-            trntypeColumn.DataPropertyName = "TRNTYPE";
-            dataGridView1.Columns.Add(trntypeColumn);
+            DataGridViewTextBoxColumn dateColumn = new DataGridViewTextBoxColumn();
+            dateColumn.Name = "Date";
+            dateColumn.ToolTipText = "Date the funds were transferred";
+            dateColumn.DataPropertyName = "Date";
+            dataGridView1.Columns.Add(dateColumn);
 
-            DataGridViewTextBoxColumn dtpostedColumn = new DataGridViewTextBoxColumn();
-            dtpostedColumn.Name = "Date posted";
-            dtpostedColumn.ToolTipText = "Date the transaction took place (not necessarily the date funds were transferred)";
-            dtpostedColumn.DataPropertyName = "DTPOSTED";
-            dataGridView1.Columns.Add(dtpostedColumn);
+            DataGridViewTextBoxColumn amountColumn = new DataGridViewTextBoxColumn();
+            amountColumn.Name = "Amount";
+            amountColumn.ToolTipText = "Amount transferred, in pence";
+            amountColumn.DataPropertyName = "Amount";
+            dataGridView1.Columns.Add(amountColumn);
 
-            //DataGridViewTextBoxColumn dtuserColumn = new DataGridViewTextBoxColumn();
-            //dtuserColumn.Name = "User date";
-            //dtuserColumn.ToolTipText = "Not sure what this is for, to be honest.";
-            //dtuserColumn.DataPropertyName = "DTUSER";
-            //dataGridView1.Columns.Add(dtuserColumn);
+            DataGridViewTextBoxColumn merchantColumn = new DataGridViewTextBoxColumn();
+            merchantColumn.Name = "Name";
+            merchantColumn.ToolTipText = "Name/description of merchant/source";
+            merchantColumn.DataPropertyName = "Merchant";
+            dataGridView1.Columns.Add(merchantColumn);
 
-            DataGridViewTextBoxColumn dtavailColumn = new DataGridViewTextBoxColumn();
-            dtavailColumn.Name = "Date available";
-            dtavailColumn.ToolTipText = "Date funds were actually transferred; this may be different to the date posted e.g. if the merchant has a delay before notifying the bank of a credit card transaction for example";
-            dtavailColumn.DataPropertyName = "DTAVAIL";
-            dataGridView1.Columns.Add(dtavailColumn);
+            DataGridViewTextBoxColumn descriptionColumn = new DataGridViewTextBoxColumn();
+            descriptionColumn.Name = "Description";
+            descriptionColumn.ToolTipText = "Additional information";
+            descriptionColumn.DataPropertyName = "Description";
+            dataGridView1.Columns.Add(descriptionColumn);
 
-            DataGridViewTextBoxColumn trnamtColumn = new DataGridViewTextBoxColumn();
-            trnamtColumn.Name = "Amount";
-            trnamtColumn.ToolTipText = "Amount transferred, in the format n*.nn";
-            trnamtColumn.DataPropertyName = "TRNAMT";
-            dataGridView1.Columns.Add(trnamtColumn);
+            BindingSource bs = new BindingSource();
+            bs.DataSource = statement.Transactions;
 
-            DataGridViewTextBoxColumn nameColumn = new DataGridViewTextBoxColumn();
-            nameColumn.Name = "Name";
-            nameColumn.ToolTipText = "Name/description of merchant/source";
-            nameColumn.DataPropertyName = "NAME";
-            dataGridView1.Columns.Add(nameColumn);
-
-            DataGridViewTextBoxColumn memoColumn = new DataGridViewTextBoxColumn();
-            memoColumn.Name = "Memo";
-            memoColumn.ToolTipText = "Additional information";
-            memoColumn.DataPropertyName = "MEMO";
-            dataGridView1.Columns.Add(memoColumn);
-
-            dataGridView1.DataSource = document.TransactionList.STMTTRN;
+            dataGridView1.DataSource = bs;
 
             // todo: validation of inputs
-            // todo: some easier way to put dates in date cells
             // todo: validation/auto-fixing of amount cells
 
-            accountTypeTextBox.Text = document.AccountType;
-            accountIDTextBox.Text = document.AccountId;
-            bankIDTextBox.Text = document.BankId;
-            statementStartDateTextBox.Text = document.TransactionList.DTSTART;
-            statementEndDateTextBox.Text = document.TransactionList.DTEND;
-            ledgerBalanceTextBox.Text = document.LedgerBal.BALAMT;
-            ledgerBalanceAsOfTextBox.Text = document.LedgerBal.DTASOF;
+            closingBalanceTextBox.DataBindings.Clear();
+            closingBalanceTextBox.DataBindings.Add(new Binding("Text", statement, "ClosingBalance"));
+
+            startDatePicker.DataBindings.Clear();
+            startDatePicker.DataBindings.Add(new Binding("Value", statement, "StartDate"));
+
+            endDatePicker.DataBindings.Clear();
+            endDatePicker.DataBindings.Add(new Binding("Value", statement, "EndDate"));
+
+            //startDatePicker.Value = statement.StartDate;
+            //endDatePicker.Value = statement.EndDate;
+            //closingBalanceTextBox.Text = statement.ClosingBalance.ToString();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -126,7 +125,7 @@ namespace OfxEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (document != null)
+            if (statement != null)
             {
                 if (fileName != null && fileName != "")
                 {
@@ -141,7 +140,7 @@ namespace OfxEditor
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (document != null)
+            if (statement != null)
             {
                 doSaveAs();
             }
@@ -150,7 +149,7 @@ namespace OfxEditor
         private void doSaveAs()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
+            saveFileDialog.Filter = "FineAnts files (*.statement)|*.statement|ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -164,18 +163,21 @@ namespace OfxEditor
         {
             populateDocumentFromControls();
 
-            document.Save(fileName);
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(fileName);
+
+            if (fileInfo.Extension == ".ofx")
+            {
+                Ofx.Document document = Ofx.Document.LoadFromFineAntsStatement(statement);
+                document.Save(fileInfo.FullName);
+            }
+            else
+            {
+                FineAntsCore.Statement.SerialiseStatement(statement, fileInfo.FullName);
+            }
         }
 
         private void populateDocumentFromControls()
         {
-            document.AccountId = accountIDTextBox.Text;
-            document.AccountType = accountTypeTextBox.Text;
-            document.BankId = bankIDTextBox.Text;
-            document.TransactionList.DTEND = statementEndDateTextBox.Text;
-            document.TransactionList.DTSTART = statementStartDateTextBox.Text;
-            document.LedgerBal.BALAMT = ledgerBalanceTextBox.Text;
-            document.LedgerBal.DTASOF = ledgerBalanceAsOfTextBox.Text;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,37 +188,76 @@ namespace OfxEditor
         private void openNewDocument()
         {
             fileName = null;
-            document = new Ofx.Document();
+            statement = new FineAntsCore.Statement();
 
             bindControlsToDocument();
         }
 
         private void calculateDateRangeButton_Click(object sender, EventArgs e)
         {
-            if (document != null)
+            if (statement == null)
             {
-                document.calculateDateRange();
-                statementStartDateTextBox.Text = document.TransactionList.DTSTART;
-                statementEndDateTextBox.Text = document.TransactionList.DTEND;
+                return;
             }
+
+            DateTime latestDate = DateTime.MinValue;
+            DateTime earliestDate = DateTime.MaxValue;
+
+            // Find earliest and latest dates of any transaction in the statement.
+            foreach (FineAntsCore.Transaction transaction in statement.Transactions)
+            {
+                if (transaction.Date > latestDate)
+                {
+                    latestDate = transaction.Date;
+                }
+
+                if (transaction.Date < earliestDate)
+                {
+                    earliestDate = transaction.Date;
+                }
+            }
+
+            // If we didn't find them for any reason (perhaps there are no transactions?), just use the current time.
+            if (latestDate == DateTime.MinValue)
+            {
+                latestDate = DateTime.Now;
+            }
+
+            if (earliestDate == DateTime.MaxValue)
+            {
+                earliestDate = DateTime.Now;
+            }
+
+            // Update the statement. Strangely it seems both the statement and the control
+            // need to be update for this to be reflected properly.
+            // I'd have thought this is exactly the kind of thing Binding is meant to do.
+            statement.StartDate = earliestDate;
+            statement.EndDate = latestDate;
+
+            startDatePicker.Value = earliestDate;
+            endDatePicker.Value = latestDate;
         }
 
         private void calculateClosingBalanceDetailsButton_Click(object sender, EventArgs e)
         {
-            if (document != null)
+            if (statement == null)
             {
-                document.calculateClosingBalanceDetails();
-                ledgerBalanceTextBox.Text = document.LedgerBal.BALAMT;
-                ledgerBalanceAsOfTextBox.Text = document.LedgerBal.DTASOF;
+                return;
             }
-        }
 
-        private void creditCardCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (document != null)
+            int total = 0;
+
+            // Sum the amounts of all the transactions in this statement.
+            foreach (FineAntsCore.Transaction transaction in statement.Transactions)
             {
-                document.IsCreditCard = creditCardCheckBox.Checked;
+                total += transaction.Amount;
             }
+
+            // Update the statement. Strangely it seems both the statement and the control
+            // need to be update for this to be reflected properly.
+            // I'd have thought this is exactly the kind of thing Binding is meant to do.
+            statement.ClosingBalance = total;
+            closingBalanceTextBox.Text = total.ToString();
         }
     }
 }
