@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Collections.Generic;
+using System.IO;
 
 namespace HSBCToFineAnts
 {
@@ -10,19 +11,55 @@ namespace HSBCToFineAnts
         {
             foreach (string arg in args)
             {
-                convertHSBCHTMLFileToFineAnts(arg);
+                if (Directory.Exists(arg))
+                {
+                    HandleDirectory(new System.IO.DirectoryInfo(arg));
+                }
+                else if (File.Exists(arg))
+                {
+                    HandleFile(new System.IO.FileInfo(arg));
+                }
             }
         }
 
-        static void convertHSBCHTMLFileToFineAnts(string path)
+        private static void HandleDirectory(DirectoryInfo directoryInfo)
         {
-            System.IO.FileInfo inputFileInfo = new System.IO.FileInfo(path);
-            string outputDirectory = inputFileInfo.DirectoryName;
+            foreach (DirectoryInfo subDir in directoryInfo.EnumerateDirectories())
+            {
+                HandleDirectory(subDir);
+            }
 
+            foreach (FileInfo subDir in directoryInfo.EnumerateFiles())
+            {
+                HandleFile(subDir);
+            }
+        }
+
+        private static void HandleFile(FileInfo fileInfo)
+        {
+            // Only do anything with files that exist
+            if (fileInfo.Exists)
+            {
+                FineAntsCore.Statement statement = ConvertHSBCHTMLFileToFineAnts(fileInfo);
+
+                string outputDirectory = fileInfo.DirectoryName;
+                string outputFileName = string.Format("{0} - {1}.statement", statement.StartDate.ToString("yyyy-MM-dd"), statement.EndDate.ToString("yyyy-MM-dd"));
+                FileInfo outFile = new FileInfo(outputDirectory + "/" + outputFileName);
+
+                // To save time, only convert if the destination file doesn't already exist, or is older than the source data
+                if (!outFile.Exists || outFile.LastWriteTime < fileInfo.LastWriteTime)
+                {
+                    FineAntsCore.Statement.SerialiseStatement(statement, outFile.FullName);
+                }
+            }
+        }
+
+        static FineAntsCore.Statement ConvertHSBCHTMLFileToFineAnts(FileInfo fileInfo)
+        {
             HtmlAgilityPack.HtmlDocument brokenDocument = new HtmlAgilityPack.HtmlDocument();
-            brokenDocument.Load(path);
+            brokenDocument.Load(fileInfo.FullName);
             brokenDocument.OptionOutputAsXml = true;
-            string fixedXmlFileName = path + ".fixed.xml";
+            string fixedXmlFileName = fileInfo.FullName + ".fixed.xml";
             brokenDocument.Save(fixedXmlFileName);
             XmlDocument document = new XmlDocument();
             document.Load(fixedXmlFileName);
@@ -69,11 +106,9 @@ namespace HSBCToFineAnts
             // remove the temporary fixed file
             System.IO.File.Delete(fixedXmlFileName);
 
-            string outputFileName = string.Format("{0} - {1}.statement", startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
-
             FineAntsCore.Statement statement = new FineAntsCore.Statement(transactions, startDate, endDate, closingBalance);
 
-            FineAntsCore.Statement.SerialiseStatement(statement, outputDirectory + "/" + outputFileName);
+            return statement;
         }
 
         private static DateTime dateFromDateStringFixedUsingUpperBoundDate(string date, DateTime endDate)
