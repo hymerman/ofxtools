@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSBCXMLStatementToOFXConverter", "HSBCXMLStatementToOFXConverter\HSBCXMLStatementToOFXConverter.csproj", "{7EA3BD89-F48C-446D-A9BF-E989B2089152}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfxMerger", "OfxMerger\OfxMerger.csproj", "{1999CB01-050B-462B-93E0-7488896F6A24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfxEditor", "OfxEditor\OfxEditor.csproj", "{08F4CB55-99C0-4365-936C-B0A7359B7ED8}"
@@ -15,16 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FineAntsToOFX", "FineAntsTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OFXToFineAnts", "OFXToFineAnts\OFXToFineAnts.csproj", "{D0CECA03-8334-427E-BB0B-17CF919E84EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSBCToFineAnts", "HSBCToFineAnts\HSBCToFineAnts.csproj", "{7EA3BD89-F48C-446D-A9BF-E989B2089152}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1999CB01-050B-462B-93E0-7488896F6A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1999CB01-050B-462B-93E0-7488896F6A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1999CB01-050B-462B-93E0-7488896F6A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,6 +44,10 @@ Global
 		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0CECA03-8334-427E-BB0B-17CF919E84EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

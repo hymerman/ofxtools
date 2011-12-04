@@ -8,8 +8,8 @@
     <ProjectGuid>{7EA3BD89-F48C-446D-A9BF-E989B2089152}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HSBCXMLStatementToOFXConverter</RootNamespace>
-    <AssemblyName>HSBCXMLStatementToOFXConverter</AssemblyName>
+    <RootNamespace>HSBCToFineAnts</RootNamespace>
+    <AssemblyName>HSBCToFineAnts</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
