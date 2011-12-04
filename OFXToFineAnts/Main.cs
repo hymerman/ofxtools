@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace FineAntsStatementFromOFX
+namespace OFXToFineAnts
 {
     public class Application
     {

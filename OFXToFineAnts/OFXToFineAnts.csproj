@@ -8,8 +8,8 @@
     <ProjectGuid>{D0CECA03-8334-427E-BB0B-17CF919E84EE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FineAntsStatementFromOFX</RootNamespace>
-    <AssemblyName>FineAntsStatementFromOFX</AssemblyName>
+    <RootNamespace>OFXToFineAnts</RootNamespace>
+    <AssemblyName>OFXToFineAnts</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
