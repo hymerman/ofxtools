@@ -55,8 +55,7 @@ namespace FineAntsToOFX
         {
             FineAntsCore.Statement statement = FineAntsCore.Statement.DeserialiseStatement(statementFile.FullName);
 
-            Ofx.Document file = new Ofx.Document();
-            file.LoadFromFineAntsStatement(statement);
+            Ofx.Document file = Ofx.Document.LoadFromFineAntsStatement(statement);
 
             file.Save(ofxFile.FullName);
         }

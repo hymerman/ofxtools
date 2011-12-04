@@ -589,22 +589,37 @@ namespace Ofx
 
         public FineAntsCore.Statement ConvertToFineAntsStatement()
         {
-            FineAntsCore.Statement statement = new FineAntsCore.Statement();
+
+            List<FineAntsCore.Transaction> transactions = new List<FineAntsCore.Transaction>();
 
             foreach (SimpleOfx.BankTranListTypeSTMTTRN ofxTransaction in this.transactions)
             {
                 int amount = Ofx.Document.moneyInPenceFromString(ofxTransaction.TRNAMT);
                 DateTime date = Ofx.Document.dateFromDateString(ofxTransaction.DTPOSTED);
 
-                statement.Transactions.Add(new FineAntsCore.Transaction(amount, date));
+                transactions.Add(new FineAntsCore.Transaction(amount, date, ofxTransaction.NAME, ofxTransaction.MEMO != null ? ofxTransaction.MEMO : ""));
             }
 
+            FineAntsCore.Statement statement = new FineAntsCore.Statement(transactions, startDate, endDate, closingBalance);
             return statement;
         }
 
-        public void LoadFromFineAntsStatement(FineAntsCore.Statement statement)
+        public static Document LoadFromFineAntsStatement(FineAntsCore.Statement statement)
         {
-            throw new NotImplementedException();
+            Document ofxDocument = new Document();
+
+            ofxDocument.closingBalance = statement.ClosingBalance;
+            ofxDocument.startDate = statement.StartDate;
+            ofxDocument.endDate = statement.EndDate;
+            ofxDocument.accountNumber = "0";
+            ofxDocument.bankNumber = "0";
+
+            foreach(FineAntsCore.Transaction transaction in statement.Transactions)
+            {
+                ofxDocument.addTransaction(transaction.Amount, transaction.Date, transaction.Merchant, transaction.Amount >= 0 ? "CREDIT" : "DEBIT", transaction.Description);
+            }
+
+            return ofxDocument;
         }
     }
 }
