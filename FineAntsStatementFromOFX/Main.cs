@@ -61,10 +61,7 @@ namespace FineAntsStatementFromOFX
 
             FineAntsCore.Statement statement = file.ConvertToFineAntsStatement();
 
-            XmlSerializer serializer = new XmlSerializer(statement.GetType());
-            TextWriter textWriter = new StreamWriter(statementFile.FullName);
-            serializer.Serialize(textWriter, statement);
-            textWriter.Close();
+            FineAntsCore.Statement.SerialiseStatement(statement, statementFile.FullName);
         }
     }
 }
