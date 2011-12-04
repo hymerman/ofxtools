@@ -259,5 +259,13 @@ namespace OfxEditor
             statement.ClosingBalance = total;
             closingBalanceTextBox.Text = total.ToString();
         }
+
+        private void dataGridView1_DefaultValuesNeeded(object sender, System.Windows.Forms.DataGridViewRowEventArgs e)
+        {
+            e.Row.Cells["Date"].Value = DateTime.Now.Date;
+            e.Row.Cells["Amount"].Value = 0;
+            e.Row.Cells["Name"].Value = "";
+            e.Row.Cells["Description"].Value = "";
+        }
     }
 }
