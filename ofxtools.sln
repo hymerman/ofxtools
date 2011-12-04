@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSBCXMLStatementToOFXConverter", "HSBCXMLStatementToOFXConverter\HSBCXMLStatementToOFXConverter.csproj", "{7EA3BD89-F48C-446D-A9BF-E989B2089152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INGDirectHTMLStatementToOFXConverter", "INGDirectHTMLStatementToOFXConverter\INGDirectHTMLStatementToOFXConverter.csproj", "{CCDBBE23-90FA-4802-BA09-FC17B2DC85C9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfxMerger", "OfxMerger\OfxMerger.csproj", "{1999CB01-050B-462B-93E0-7488896F6A24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfxEditor", "OfxEditor\OfxEditor.csproj", "{08F4CB55-99C0-4365-936C-B0A7359B7ED8}"
@@ -25,10 +23,6 @@ Global
 		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EA3BD89-F48C-446D-A9BF-E989B2089152}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCDBBE23-90FA-4802-BA09-FC17B2DC85C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCDBBE23-90FA-4802-BA09-FC17B2DC85C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCDBBE23-90FA-4802-BA09-FC17B2DC85C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCDBBE23-90FA-4802-BA09-FC17B2DC85C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1999CB01-050B-462B-93E0-7488896F6A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1999CB01-050B-462B-93E0-7488896F6A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1999CB01-050B-462B-93E0-7488896F6A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
