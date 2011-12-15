@@ -67,25 +67,25 @@ namespace HSBCToFineAnts
             XmlNamespaceManager namespaceManager = new XmlNamespaceManager(document.NameTable);
             namespaceManager.AddNamespace("d", "http://www.w3.org/1999/xhtml");
 
-            XmlNode closingBalanceNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[last()]/d:td[6]/d:p", namespaceManager);
-            XmlNode closingBalanceSignNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[last()]/d:td[7]/d:p", namespaceManager);
+            XmlNode closingBalanceNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='top']/d:div[@id='innerPage']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[last()]/d:td[6]/d:p", namespaceManager);
+            XmlNode closingBalanceSignNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='top']/d:div[@id='innerPage']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[last()]/d:td[7]/d:p", namespaceManager);
             int closingBalance = moneyInPenceFromString(closingBalanceNode.InnerText.Trim());
             if (closingBalanceSignNode.InnerText.Trim() == "D") closingBalance = -closingBalance;
 
-            XmlNode endDateNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:div[@class='extPibRow hsbcRow']/d:div[@class='hsbcPadding']/d:div[@class='hsbcTextRight']", namespaceManager);
+            XmlNode endDateNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='top']/d:div[@id='innerPage']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:div[@class='extPibRow hsbcRow']/d:div[@class='hsbcPadding']/d:div[@class='hsbcTextRight']", namespaceManager);
             string endDateString = HtmlAgilityPack.HtmlEntity.DeEntitize(endDateNode.InnerText).Trim();
 
             System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
             DateTime endDate = DateTime.ParseExact(endDateString, "dd MMM yyyy", provider);
 
-            XmlNode startDateNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[1]/d:td[1]/d:p", namespaceManager);
+            XmlNode startDateNode = document.SelectSingleNode("/span/d:html/d:body/d:div[@id='top']/d:div[@id='innerPage']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[1]/d:td[1]/d:p", namespaceManager);
             string startDateString = HtmlAgilityPack.HtmlEntity.DeEntitize(startDateNode.InnerText).Trim();
 
             DateTime startDate = dateFromDateStringFixedUsingUpperBoundDate(startDateString, endDate.AddDays(-1)).AddDays(1);
 
             List<FineAntsCore.Transaction> transactions = new List<FineAntsCore.Transaction>();
 
-            XmlNodeList transactionNodes = document.SelectNodes("/span/d:html/d:body/d:div[@id='outerwrap']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='extVariableContentContainer']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[position()>1 and position()<last()]", namespaceManager);
+            XmlNodeList transactionNodes = document.SelectNodes("/span/d:html/d:body/d:div[@id='top']/d:div[@id='innerPage']/d:div[@id='wrapper']/d:div[@id='main']/d:div[@id='content']/d:div[@class='containerMain']/d:div[@class='hsbcMainContent hsbcCol']/d:div[@class='extContentHighlightPib hsbcCol']/d:table/d:tbody/d:tr[position()>1 and position()<last()]", namespaceManager);
             foreach (XmlNode node in transactionNodes)
             {
                 XmlNode dateNode = node.SelectSingleNode("d:td[1]/d:p", namespaceManager);
