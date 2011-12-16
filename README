@@ -1,19 +1,44 @@
-I'm fed up with egg not allowing export of statements, and of HSBC not allowing export of previous statements, and terrible interface for downloading recent transactions. I wrote a couple of little tools in C# to extract OFX-formatted statements from the egg and HSBC websites.
+Readme last updated 16th December 2011
 
-Currently only egg and HSBC (UK banks) are supported, I intend to add all the other financial institutes that I use soon (RBS, ING), and also to add a few tools I will find useful (an OFX file viewer since I find myself looking at them quite often, and a merger since that will make importing them into other software and websites much more efficient).
+Overview:
 
-I know it's a very specific set of tools, and that's because I wrote them for myself! I'm now sharing the code since I'm sure someone else will find it useful, and since I'm not going to spend a lot of time maintaining it I'm also providing the source, for others to modify when the websites inevitably alter their formatting.
+This is a little suite of tools for fiddling with OFX files, and getting them from websites and other downloads of some banks I use.
 
-Update (2009/10/22): I've been a busy bee, and there's now a converter for ING Direct Savings, an editor (not just your run-of-the-mill viewer!), and a merger, which will also check for consistency in date ranges and transaction sums and closing balance details. Enough for me to properly keep tabs on my OFX files, at least. I'm going to do a bit more work improving the merger to remove duplicate transactions, then a bit of a tidy up and refactor, then I'll make some binaries available and finish up with this project.
+Since OFX is a horrible file format, everything is done using my little intermediate file format written for an app I'm making called FineAnts. There are utilities for converting between OFX and FineAnts.
 
-Update (2010/05/05): I've written some instructions! Hurrah! I wrote this as a response to a user's questions on github, and figured I might as well make it part of the readme so others can benefit from it. So here it is:
+Most of these programs are simple command line programs, which take a list of files or directories as arguments and output either OFX files or a FineAnts .statement files. If OFX is what you're after (most likely), you'll want to use OFXToFineAnts to convert the result to OFX. Any directories you pass in will be scanned for files recursively.
 
-Basically if you want to build it, you'll need Visual C# (Microsoft provide a free 'Express Edition' which is fine). Github allows you to download the source package to avoid needing to set up git and fetch the repository - just go to the ofxtools page and choose 'download source' in the top right. Extract that somewhere on your computer, and open up the OfxTools.sln file. Then in Visual Studio, choose "build -> batch build ...", then hit 'select all', and then 'build'. It'll churn away for a few seconds building all the tools. Once it's done, there'll be a file called HSBCXMLStatementToOFXConverter.exe in HSBCXMLStatementToOFXConverter\bin\Debug.
+Clearly using the programs from the command line is a bit fiddly, so you can also use them by dragging the input files or directories onto the executables.
 
-The input to the program is HTML files saved from the HSBC website, specifically the ones in 'previous statements'. What I do is click 'previous statements', then just go down the list, right click each one and choose 'save as...' and make sure it's just saving a HTML file (don't need images and so on, often called "web page, complete"). That'll save a really oddly named file to your computer, and that's the file the program will convert.
 
-It's set up to take a bunch of filenames as its parameters and output them as an ofx file named after the date range it covers (since that's how I like to store them!). So you can either run it from the command prompt (cumbersome) or you can just drag files onto it in Windows, which is what I do. Typically I'll download a bunch of HTML files, select them all and drag them onto the exe in one go, then wait until it's done and delete the HTML files.
+Some descriptions of the included utilities:
 
-To check that they're sensible I made a little OfxEditor program which works in a similar way - drag the ofx file onto it to view/edit its contents. It's also got open/save menu options since it's a graphical app. I warn you now though, if you're using it to edit ofx files it's really quite hard to use - it's expecting dates and amounts in a very specific format and it'll probably crash if you get it wrong. I didn't need it to do much so I didn't concentrate on error handling and validation.
+AmexOFXCleaner: The American Express website makes OFX downloads available, but they're formatted really weirdly and I found some tools that read OFX files didn't read them properly. Run them through AmexOFXCleaner to clean them.
 
-Since you're probably using the ofx files to import data to a personal finance website or program, there's another useful tool I wrote called OfxMerger. I found some of these sites can take a while to process each file and that if I wanted to import hundreds of them, it would take a very long time. So this program merges multiple ofx files together, and prints out some helpful warnings if it detects oddities like date ranges overlapping or having gaps, or end of statement totals not being consistent with their transactions and the previous statement's total. The output is one ofx file containing all the transactions of the input files. Usage is the same, drag a bunch of files onto it in one go. Also you can just drag a whole folder onto it and it'll work like that too.
+FineAntsToOFX: Converts FineAnts .statement files to OFX files.
+
+FirstDirectCSVToFineAnts: Converts CSV files from the First Direct website (called "Microsoft Excel" files on their website) to FineAnts .statement files. Tested on CSV files downloaded for a current account and regular saver.
+
+HalifaxCSVToFineAnts: Converts CSV files from the Halifax website to FineAnts .statement files. Tested just on a rewards current account.
+
+HSBCToFineAnts: Converts 'previous statement' pages saved as HTML to FineAnts .statement files. I do this by clicking 'previous statements' on the sidebar to get the list of previous statements, then right-clicking each one and choosing 'save as' to save the file.
+
+OfxEditor: Simple editor for OFX and FineAnts .statement files. It doesn't allow you to edit things like the account type and number, or transaction types, since they're almost completely useless and ignored by most tools. It'll strip out anything not stored in my .statement format, so don't use it to save over .ofx files directly if you're worried about losing that extra information.
+
+OfxMerger: Takes multiple OFX files and merges them into one. This currently doesn't operate on FineAnts .statement files. It will warn you about overlaps and gaps in date ranges of statements, and also about discrepencies between closing balances and sums of transactions.
+
+OFXToFineAnts: Converts OFX files to FineAnts .statement files.
+
+PostOfficeCSVToFineAnts: Converts CSV files from the Post Office Savings website to FineAnts .statement files.
+
+
+Building:
+
+If binaries aren't available (they aren't at the time of writing, but I plan to upload some soon), this is how you go about getting them:
+
+You'll need Visual C# (Microsoft provide a free 'Express Edition' which is fine). Download the source to ofxtools from https://github.com/hymerman/ofxtools - either through git or using the 'download as zip' button. Open OfxTools.sln, then from Visual Studio, choose "build -> batch build ...", then 'select all', and then 'build'. It'll churn away for a few seconds building all the tools. Once it's done, there'll be a bunch of executables inside each sub-project's directory, and you're good to go.
+
+
+Older converters:
+
+This project used to also support statements from Egg credit cards (which no longer exist) and ING direct (which I haven't used for years and thus can't maintain). If you need to convert statements from either of them, you may need to get your hands dirty and look back through the history of this project a bit!
