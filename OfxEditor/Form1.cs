@@ -33,7 +33,7 @@ namespace OfxEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "FineAnts files (*.statement)|*.statement|ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
+            openFileDialog.Filter = "FineAnts JSON files (*.statementjson)|*.statementjson|FineAnts files (*.statement)|*.statement|ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -49,12 +49,20 @@ namespace OfxEditor
 
             if (fileInfo.Extension == ".ofx")
             {
-                Ofx.Document document = new Ofx.Document(fileInfo.FullName, "../../../external/SgmlReader/TestSuite/ofx160.dtd");
+                Ofx.Document document = new Ofx.Document(fileInfo.FullName, "ofx160.dtd");
                 statement = document.ConvertToFineAntsStatement();
             }
             else if (fileInfo.Extension == ".statement")
             {
                 statement = FineAntsCore.Statement.DeserialiseStatement(fileInfo.FullName);
+            }
+            else if (fileInfo.Extension == ".statementjson")
+            {
+                statement = FineAntsCore.Statement.DeserialiseStatementJSON(fileInfo.FullName);
+            }
+            else
+            {
+                throw new Exception("Unsupported file type");
             }
 
             bindControlsToDocument();
@@ -149,7 +157,7 @@ namespace OfxEditor
         private void doSaveAs()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "FineAnts files (*.statement)|*.statement|ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
+            saveFileDialog.Filter = "FineAnts JSON files (*.statementjson)|*.statementjson|FineAnts files (*.statement)|*.statement|ofx files (*.ofx)|*.ofx|All files (*.*)|*.*";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -170,9 +178,13 @@ namespace OfxEditor
                 Ofx.Document document = Ofx.Document.LoadFromFineAntsStatement(statement);
                 document.Save(fileInfo.FullName);
             }
-            else
+            else if (fileInfo.Extension == ".statement")
             {
                 FineAntsCore.Statement.SerialiseStatement(statement, fileInfo.FullName);
+            }
+            else
+            {
+                FineAntsCore.Statement.SerialiseStatementJSON(statement, fileInfo.FullName);
             }
         }
 

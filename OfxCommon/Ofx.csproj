@@ -58,6 +58,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ofx160.dtd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="simpleOFX.xsd">
     </None>
   </ItemGroup>

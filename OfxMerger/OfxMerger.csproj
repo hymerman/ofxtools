@@ -41,9 +41,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SgmlReaderDll, Version=1.7.3364.24133, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FineAntsCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\external\SgmlReader\sgmlreaderdll\bin\debug\SgmlReaderDll.dll</HintPath>
+      <HintPath>..\external\FineAnts\FineAntsCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\external\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

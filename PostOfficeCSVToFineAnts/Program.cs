@@ -43,13 +43,13 @@ namespace PostOfficeCSVToFineAnts
                 FineAntsCore.Statement statement = ConvertPostOfficeCSVFileToFineAnts(fileInfo);
 
                 string outputDirectory = fileInfo.DirectoryName;
-                string outputFileName = string.Format("{0} - {1}.statement", statement.StartDate.ToString("yyyy-MM-dd"), statement.EndDate.ToString("yyyy-MM-dd"));
+                string outputFileName = string.Format("{0} - {1}.statementjson", statement.StartDate.ToString("yyyy-MM-dd"), statement.EndDate.ToString("yyyy-MM-dd"));
                 FileInfo outFile = new FileInfo(outputDirectory + "/" + outputFileName);
 
                 // To save time, only convert if the destination file doesn't already exist, or is older than the source data
                 if (!outFile.Exists || outFile.LastWriteTime < fileInfo.LastWriteTime)
                 {
-                    FineAntsCore.Statement.SerialiseStatement(statement, outFile.FullName);
+                    FineAntsCore.Statement.SerialiseStatementJSON(statement, outFile.FullName);
                 }
             }
         }
