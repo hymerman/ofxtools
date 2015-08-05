@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 13.00
+# Visual Studio 2015
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfxMerger", "OfxMerger\OfxMerger.csproj", "{1999CB01-050B-462B-93E0-7488896F6A24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfxEditor", "OfxEditor\OfxEditor.csproj", "{08F4CB55-99C0-4365-936C-B0A7359B7ED8}"
